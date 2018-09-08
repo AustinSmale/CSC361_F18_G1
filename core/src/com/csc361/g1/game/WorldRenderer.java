@@ -37,7 +37,12 @@ public class WorldRenderer implements Disposable{
 		batch.end();
 	}
 	
-	public void resize (int width, int height) {}
+	public void resize (int width, int height) {
+		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height) * width;
+		camera.update();
+	}
 	
-	@Override public void dispose() {}
+	@Override public void dispose() {
+		batch.dispose();
+	}
 }
