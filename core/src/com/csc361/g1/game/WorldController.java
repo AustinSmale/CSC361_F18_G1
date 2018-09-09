@@ -6,17 +6,19 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.csc361.g1.util.CameraHelper;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
 import com.badlogic.gdx.InputAdapter;
 
-public Sprite[] testSprites;
-public int selectedSprite;
-
 public class WorldController extends InputAdapter{
 	private static final String TAG = WorldController.class.getName();
+	public Sprite[] testSprites;
+	public int selectedSprite;
+
+	public CameraHelper cameraHelper;
 	
 	public WorldController () {
 		init();
@@ -24,6 +26,7 @@ public class WorldController extends InputAdapter{
 	
 	private void init () {
 		Gdx.input.setInputProcessor(this);
+		cameraHelper = new CameraHelper();
 		initTestObjects();
 	}
 	
@@ -81,6 +84,7 @@ public class WorldController extends InputAdapter{
 	public void update (float deltaTime) {
 		handleDebugInput(deltaTime);
 		updateTestObjects(deltaTime);
+		cameraHelper.update(deltaTime);
 	}
 	
 	private void updateTestObjects(float deltaTime) {
@@ -126,6 +130,11 @@ public class WorldController extends InputAdapter{
 		// Select next sprite
 		else if (keycode == Keys.SPACE) {
 			selectedSprite = (selectedSprite + 1) % testSprites.length;
+			// Update camera's target to follow the currently
+			// selected sprite
+			if (cameraHelper.hasTarget()) {
+				cameraHelper.setTarget(testSprites[selectedSprite]);
+			}
 			Gdx.app.debug(TAG, "Sprite #" + selectedSprite + " selected");
 		}
 		return false;
