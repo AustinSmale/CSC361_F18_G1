@@ -31,7 +31,7 @@ public class CanyonBunnyMain implements ApplicationListener{
 		if(!paused) {
 			// Update game world by the time that has passed
 			// since last rendered frame.
-			worldController.upadte(Gdx.graphics.getDeltaTime());			
+			worldController.update(Gdx.graphics.getDeltaTime());			
 		}
 		// Sets the clear green screen color to: Cornflower Blue
 		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
