@@ -84,5 +84,6 @@ public class CanyonBunnyMain implements ApplicationListener{
 	@Override 
 	public void dispose() {
 		worldRenderer.dispose();
+		Assets.instance.dispose();
 	}
 }

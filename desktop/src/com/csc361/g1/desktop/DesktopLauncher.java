@@ -14,7 +14,7 @@ import com.csc361.g1.CanyonBunnyMain;
  */
 
 public class DesktopLauncher {
-	private static boolean rebuildAtlas = true;
+	private static boolean rebuildAtlas = false;
 	private static boolean drawDebugOutline = true;
 
 	public static void main(String[] arg) {
@@ -25,7 +25,7 @@ public class DesktopLauncher {
 			settings.maxHeight = 1024;
 			settings.debug = drawDebugOutline;
 			//process the texture and add it to a pack
-			TexturePacker.process(settings, "assets-raw/images", "CSC361_F16_G1-desktop/assets/images",
+			TexturePacker.process(settings, "assets-raw/images", "core/assets/images",
 					"canyonbunny.pack");
 		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
