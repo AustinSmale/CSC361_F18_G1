@@ -54,14 +54,40 @@ public class Assets implements Disposable, AssetErrorListener {
 	}
 	
 	/*
-	 *    ===== Assets Below =====
+	 *    ===== Game Assets Below =====
 	 */
 	
 	//BunnyHead Asset
 	public class AssetBunny {
-		 public final AtlasRegion head;
-		 public AssetBunny (TextureAtlas atlas) {
-			 head = atlas.findRegion("bunny_head");
-		 }
+		public final AtlasRegion head;
+		public AssetBunny (TextureAtlas atlas) {
+			head = atlas.findRegion("bunny_head");
+		}
+	}
+	
+	//Edge and Middle rock assets
+	public class AssetRock {
+		public final AtlasRegion edge;
+		public final AtlasRegion middle;
+		public AssetRock (TextureAtlas atlas) {
+			edge = atlas.findRegion("rock_edge");
+			middle = atlas.findRegion("rock_middle");
+		}
+	}
+	
+	//Gold Coin Asset
+	public class AssetGoldCoin {
+		public final AtlasRegion goldCoin;
+		public AssetGoldCoin (TextureAtlas atlas) {
+			goldCoin = atlas.findRegion("item_gold_coin");
+		}
+	}
+	
+	//Feather Asset
+	public class AssetFeather {
+		public final AtlasRegion feather;
+		public AssetFeather (TextureAtlas atlas) {
+			feather = atlas.findRegion("item_feather");
+		}
 	}
 }
