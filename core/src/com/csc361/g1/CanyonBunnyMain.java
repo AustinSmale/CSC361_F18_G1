@@ -3,10 +3,17 @@ package com.csc361.g1;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.csc361.g1.game.Assets;
 import com.csc361.g1.game.WorldController;
 import com.csc361.g1.game.WorldRenderer;
 
+/**
+ * Main class to render game
+ * @author Austin Smale
+ *
+ */
 public class CanyonBunnyMain implements ApplicationListener{
 	private static final String TAG = CanyonBunnyMain.class.getName();
 	
@@ -14,10 +21,17 @@ public class CanyonBunnyMain implements ApplicationListener{
 	private WorldRenderer worldRenderer;
 	private boolean paused;
 	
+	/**
+	 * Initialize the window and game  
+	 */
 	@Override 
 	public void create() {
 		// Set Libgdx log level to DEBUG
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		
+		// Load Assets
+		Assets.instance.init(new AssetManager());
+		
 		// Initialize controller and renderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -25,6 +39,9 @@ public class CanyonBunnyMain implements ApplicationListener{
 		paused = false;
 	}
 	
+	/**
+	 * Render the game
+	 */
 	@Override 
 	public void render() {
 		// Do not update game world when paused
@@ -41,16 +58,25 @@ public class CanyonBunnyMain implements ApplicationListener{
 		worldRenderer.render();
 	}
 	
+	/**
+	 * Resize the window if the user changes it
+	 */
 	@Override 
 	public void resize(int width, int height) {
 		worldRenderer.resize(width, width);
 	}
 	
+	/**
+	 * if the user pauses the game
+	 */
 	@Override 
 	public void pause() {
 		paused = true;
 	}
 	
+	/**
+	 * if the user resumes the game
+	 */
 	@Override public void resume() {
 		paused = false;
 	}
