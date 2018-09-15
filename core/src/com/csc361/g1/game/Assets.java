@@ -7,6 +7,7 @@
 package com.csc361.g1.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,6 +29,12 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 	}
 	
+	public AssetBunny bunny;
+	public AssetRock rock;
+	public AssetGoldCoin goldCoin;
+	public AssetFeather feather;
+	public AssetLevelDecoration levelDecoration;
+	
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
 		 
@@ -42,6 +49,19 @@ public class Assets implements Disposable, AssetErrorListener {
 		Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
 		for (String a : assetManager.getAssetNames()) 
 			Gdx.app.debug(TAG, "asset: " + a);
+		
+		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+		
+		//Enable texture filtering for pixel smoothing
+		for (Texture t : atlas.getTextures())
+			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		//Create game resource objects
+		bunny = new AssetBunny(atlas);
+		rock = new AssetRock(atlas);
+		goldCoin = new AssetGoldCoin(atlas);
+		feather = new AssetFeather(atlas);
+		levelDecoration = new AssetLevelDecoration(atlas);
 	}
 	
 	//Disposes of the assetManager
