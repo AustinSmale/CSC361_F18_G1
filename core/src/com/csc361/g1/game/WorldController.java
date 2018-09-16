@@ -13,10 +13,19 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
+//Class Imports
+import com.csc361.g1.game.objects.Rock;
+import com.csc361.g1.util.Constants;
+
 import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
+	
+	//Next 3 lines are added code from chapter 5.
+	public Level level;
+	public int lives;
+	public int score;	
 
 	public CameraHelper cameraHelper;
 
@@ -27,6 +36,12 @@ public class WorldController extends InputAdapter {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
+	}
+	
+	//Initializes the level
+	private void initLevel () {
+		score = 0;
+		level = new Level(Constants.LEVEL_01);
 	}
 
 	private Pixmap createProceduralPixmap(int width, int height) {
@@ -49,23 +64,14 @@ public class WorldController extends InputAdapter {
 
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
-		updateTestObjects(deltaTime);
 		cameraHelper.update(deltaTime);
+		lives = Constants.LIVES_START;
+		initLevel();
 	}
 
 	private void handleDebugInput(float deltaTime) {
 		if (Gdx.app.getType() != ApplicationType.Desktop)
 			return;
-		// Selected Sprite Controls
-		float sprMoveSpeed = 5 * deltaTime;
-		if (Gdx.input.isKeyPressed(Keys.A))
-			moveSelectedSprite(-sprMoveSpeed, 0);
-		if (Gdx.input.isKeyPressed(Keys.D))
-			moveSelectedSprite(sprMoveSpeed, 0);
-		if (Gdx.input.isKeyPressed(Keys.W))
-			moveSelectedSprite(0, sprMoveSpeed);
-		if (Gdx.input.isKeyPressed(Keys.S))
-			moveSelectedSprite(0, -sprMoveSpeed);
 
 		// Camera Controls (move)
 		float camMoveSpeed = 5 * deltaTime;
@@ -108,22 +114,6 @@ public class WorldController extends InputAdapter {
 		if (keycode == Keys.R) {
 			init();
 			Gdx.app.debug(TAG, "Game world resetted");
-		}
-
-		// Select next sprite
-		else if (keycode == Keys.SPACE) {
-			selectedSprite = (selectedSprite + 1) % testSprites.length;
-			// Update camera's target to follow the currently
-			// selected sprite
-			if (cameraHelper.hasTarget()) {
-				cameraHelper.setTarget(testSprites[selectedSprite]);
-			}
-			Gdx.app.debug(TAG, "Sprite #" + selectedSprite + " selected");
-		}
-		// Toggle camera follow
-		else if (keycode == Keys.ENTER) {
-			cameraHelper.setTarget(cameraHelper.hasTarget() ? null : testSprites[selectedSprite]);
-			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 		}
 		return false;
 	}
