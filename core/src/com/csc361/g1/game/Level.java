@@ -134,6 +134,17 @@ public class Level {
 	}
 	
 	public void render (SpriteBatch batch) {
+		//Draw Mountains
+		mountains.render(batch);
 		
+		//Draw Rocks
+		for (Rock rock : rocks)
+			rock.render(batch);
+		
+		//Draw Water Overlay
+		waterOverlay.render(batch);
+		
+		//Draw Clouds
+		clouds.render(batch);
 	}
 }
