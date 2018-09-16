@@ -59,7 +59,7 @@ public class Mountains extends AbstractGameObject {
 			batch.setColor(1, 1, 1, 1);
 	}
 	
-	//Methods below are implements of AbstractGameObject
+	//Method below are implements of AbstractGameObject
 	@Override
 	public void render (SpriteBatch batch) {
 		//Distant mountains (dark gray)
