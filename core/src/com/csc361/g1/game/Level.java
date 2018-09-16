@@ -54,6 +54,9 @@ public class Level {
 	}
 	
 	private void init (String filename) {
+		// need to initialize rock array here
+		rocks = new Array<Rock>();
+		
 		//Load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		
