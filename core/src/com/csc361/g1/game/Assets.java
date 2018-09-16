@@ -37,28 +37,32 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetFeather feather;
 	public AssetLevelDecoration levelDecoration;
 
+	/**
+	 * Initializes the assets in the game
+	 * @param assetManager
+	 */
 	public void init(AssetManager assetManager) {
 		this.assetManager = assetManager;
-
-		// Set asset manager error handler
+		
+		// set asset manager error handler
 		assetManager.setErrorListener(this);
-
-		// Load texture atlas
+		
+		// load texture atlas
 		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
-
-		// Start loading assets and wait until finished
+		
+		// start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
 		for (String a : assetManager.getAssetNames())
 			Gdx.app.debug(TAG, "asset: " + a);
-
 		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
-
-		// Enable texture filtering for pixel smoothing
+		
+		// enable texture filtering for pixel smoothing
 		for (Texture t : atlas.getTextures())
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		// Create game resource objects
+		
+		// create game resource objects
+		fonts = new AssetFonts(); 	//added
 		bunny = new AssetBunny(atlas);
 		rock = new AssetRock(atlas);
 		goldCoin = new AssetGoldCoin(atlas);
@@ -66,10 +70,13 @@ public class Assets implements Disposable, AssetErrorListener {
 		levelDecoration = new AssetLevelDecoration(atlas);
 	}
 
-	// Disposes of the assetManager
+	// Disposes of the assetManager and the fonts
 	@Override
 	public void dispose() {
 		assetManager.dispose();
+		fonts.defaultBig.dispose();
+		fonts.defaultNormal.dispose();
+		fonts.defaultSmall.dispose();
 	}
 
 	// Error for when the asset cannot be loaded.
@@ -144,22 +151,32 @@ public class Assets implements Disposable, AssetErrorListener {
 
 	}
 
+	/**
+	 * Font class
+	 * 
+	 * @author Austin Smale
+	 *
+	 */
 	public class AssetFonts {
+		// different size fonts to use
 		public final BitmapFont defaultSmall;
 		public final BitmapFont defaultNormal;
 		public final BitmapFont defaultBig;
 
+		/**
+		 * Constructor for fonts, creates the font in three different sizes
+		 */
 		public AssetFonts() {
 			// create three fonts using Libgdx's 15px bitmap font
 			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
 			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
 			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-			
+
 			// set font sizes
 			defaultSmall.getData().setScale(0.75f);
 			defaultNormal.getData().setScale(1.0f);
 			defaultBig.getData().setScale(2.0f);
-			
+
 			// enable linear texture filtering for smooth fonts
 			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			defaultNormal.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
