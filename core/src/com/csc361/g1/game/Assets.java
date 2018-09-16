@@ -1,7 +1,7 @@
 /*
  * Allen Crigger
  * Assets Class
- * 
+ * Holds all of the game's assets.
  */
 
 package com.csc361.g1.game;
