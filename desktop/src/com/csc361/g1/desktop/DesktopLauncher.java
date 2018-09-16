@@ -24,11 +24,13 @@ public class DesktopLauncher {
 			settings.maxWidth = 1024;
 			settings.maxHeight = 1024;
 			settings.debug = drawDebugOutline;
-			//process the texture and add it to a pack
-			TexturePacker.process(settings, "assets-raw/images", "core/assets/images",
-					"canyonbunny.pack");
+			// process the texture and add it to a pack
+			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.atlas");
 		}
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new CanyonBunnyMain(), config);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = "CanyonBunny";
+		cfg.width = 800;
+		cfg.height = 480;
+		new LwjglApplication(new CanyonBunnyMain(), cfg);
 	}
 }

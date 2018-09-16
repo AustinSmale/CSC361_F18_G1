@@ -71,7 +71,6 @@ public class Assets implements Disposable, AssetErrorListener {
 	}
 	
 	//Error for when the asset cannot be loaded.
-	@Override
 	public void error (String filename, Class type, Throwable throwable) {
 		Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'", (Exception)throwable);
 	}
@@ -130,5 +129,11 @@ public class Assets implements Disposable, AssetErrorListener {
 			mountainRight = atlas.findRegion("mountain_right");
 			waterOverlay = atlas.findRegion("water_overlay");
 		}
+	}
+
+	@Override
+	public void error(AssetDescriptor asset, Throwable throwable) {
+		// TODO Auto-generated method stub
+		
 	}
 }
