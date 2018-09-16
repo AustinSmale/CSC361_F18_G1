@@ -21,11 +21,11 @@ import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
-	
-	//Next 3 lines are added code from chapter 5.
+
+	// Next 3 lines are added code from chapter 5.
 	public Level level;
 	public int lives;
-	public int score;	
+	public int score;
 
 	public CameraHelper cameraHelper;
 
@@ -36,10 +36,13 @@ public class WorldController extends InputAdapter {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
+		// moved out of update() to here, caused world to keep updating with a new level
+		lives = Constants.LIVES_START;
+		initLevel();
 	}
-	
-	//Initializes the level
-	private void initLevel () {
+
+	// Initializes the level
+	private void initLevel() {
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
 	}
@@ -65,8 +68,6 @@ public class WorldController extends InputAdapter {
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
 		cameraHelper.update(deltaTime);
-		lives = Constants.LIVES_START;
-		initLevel();
 	}
 
 	private void handleDebugInput(float deltaTime) {
