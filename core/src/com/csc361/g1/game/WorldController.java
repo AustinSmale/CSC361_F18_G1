@@ -17,8 +17,6 @@ import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
-	public Sprite[] testSprites;
-	public int selectedSprite;
 
 	public CameraHelper cameraHelper;
 
@@ -29,37 +27,6 @@ public class WorldController extends InputAdapter {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
-		initTestObjects();
-	}
-
-	/**
-	 * Create the test objects to be used in the game for testing purposes
-	 * Modified by: Austin Smale
-	 */
-	private void initTestObjects() {
-		// Create new array for 5 sprites
-		testSprites = new Sprite[5];
-		// Create a list of texture regions
-		Array<TextureRegion> regions = new Array<TextureRegion>();
-		regions.add(Assets.instance.bunny.head);
-		regions.add(Assets.instance.feather.feather);
-		regions.add(Assets.instance.goldCoin.goldCoin);
-		// Create new sprites using a random texture region
-		for (int i = 0; i < testSprites.length; i++) {
-			Sprite spr = new Sprite(regions.random());
-			// Define sprite size to be 1m x 1m in game world
-			spr.setSize(1, 1);
-			// Set origin to sprite's center
-			spr.setOrigin(spr.getWidth() / 2.0f, spr.getHeight() / 2.0f);
-			// Calculate random position for sprite
-			float randomX = MathUtils.random(-2.0f, 2.0f);
-			float randomY = MathUtils.random(-2.0f, 2.0f);
-			spr.setPosition(randomX, randomY);
-			// Put new sprite into array
-			testSprites[i] = spr;
-		}
-		// Set first sprite as selected one
-		selectedSprite = 0;
 	}
 
 	private Pixmap createProceduralPixmap(int width, int height) {
@@ -84,20 +51,6 @@ public class WorldController extends InputAdapter {
 		handleDebugInput(deltaTime);
 		updateTestObjects(deltaTime);
 		cameraHelper.update(deltaTime);
-	}
-
-	private void updateTestObjects(float deltaTime) {
-		// Get current rotation from selected sprite
-		float rotation = testSprites[selectedSprite].getRotation();
-
-		// Rotate sprite by 90 degrees per second
-		rotation += 90 * deltaTime;
-
-		// Wrap around at 360 degrees
-		rotation %= 360;
-
-		// Set new rotation value to selected sprite
-		testSprites[selectedSprite].setRotation(rotation);
 	}
 
 	private void handleDebugInput(float deltaTime) {
@@ -147,10 +100,6 @@ public class WorldController extends InputAdapter {
 		x += cameraHelper.getPosition().x;
 		y += cameraHelper.getPosition().y;
 		cameraHelper.setPosition(x, y);
-	}
-
-	private void moveSelectedSprite(float x, float y) {
-		testSprites[selectedSprite].translate(x, y);
 	}
 
 	@Override
