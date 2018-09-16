@@ -36,4 +36,53 @@ public class Clouds extends AbstractGameObject {
 			batch.draw(reg.getTexture(), position.x + origin.x, position.y + origin.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 		}
 	}
+	
+	//Sets the clouds length and initializes
+	public Clouds (float length) {
+		this.length = length;
+		init();
+	}
+	
+	//Initialization
+	private void init () {
+		dimension.set(3.0f, 1.5f);
+		regClouds = new Array<TextureRegion>();
+		regClouds.add(Assets.instance.levelDecoration.cloud01);
+		regClouds.add(Assets.instance.levelDecoration.cloud02);
+		regClouds.add(Assets.instance.levelDecoration.cloud03);
+		int distFac = 5;
+		int numClouds = (int)(length / distFac);
+		clouds = new Array<Cloud>(2 * numClouds);
+		for (int i = 0; i < numClouds; i++) {
+			Cloud cloud = spawnCloud();
+			cloud.position.x = i * distFac;
+			clouds.add(cloud);
+		}
+	}
+	
+	//Spawn the clouds
+	private Cloud spawnCloud () {
+		Cloud cloud = new Cloud();
+		cloud.dimension.set(dimension);
+		
+		//Select random cloud image
+		cloud.setRegion(regClouds.random());
+		
+		//Position
+		Vector2 pos = new Vector2();
+		pos.x = length + 10; //Position after end of level
+		pos.y += 1.75; //Base position
+		
+		//Random additional position
+		pos.y += MathUtils.random(0.0f, 0.2f) * (MathUtils.randomBoolean() ? 1 : -1);
+		cloud.position.set(pos);
+		return cloud;
+	}
+	
+	//Method below are implements of AbstractGameObject
+	@Override
+	public void render (SpriteBatch batch) {
+		for (Cloud cloud : clouds)
+			cloud.render(batch);
+	}
 }
