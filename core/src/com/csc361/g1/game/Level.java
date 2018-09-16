@@ -119,6 +119,18 @@ public class Level {
 				lastPixel = currentPixel;
 			}
 		}
+		
+		//Decoration
+		clouds = new Clouds(pixmap.getWidth());
+		clouds.position.set(0, 2);
+		mountains = new Mountains(pixmap.getWidth());
+		mountains.position.set(-1, -1);
+		waterOverlay = new WaterOverlay(pixmap.getWidth());
+		waterOverlay.position.set(0, -3.75f);
+		 
+		//Free memory
+		pixmap.dispose();
+		Gdx.app.debug(TAG, "level '" + filename + "' loaded");
 	}
 	
 	public void render (SpriteBatch batch) {
