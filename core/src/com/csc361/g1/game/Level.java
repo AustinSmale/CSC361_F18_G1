@@ -74,6 +74,51 @@ public class Level {
 				 * point and create the corresponding game object if there is
 		  		 * a match 
 		  		 */
+				
+				//Empty space
+				if (BLOCK_TYPE.EMPTY.sameColor(currentPixel)) {
+					//Do nothing
+				}
+				
+				//Rock
+				else if (BLOCK_TYPE.ROCK.sameColor(currentPixel)) {
+					if (lastPixel != currentPixel) {
+						obj = new Rock();
+						float heightIncreaseFactor = 0.25f;
+						offsetHeight = -2.5f;
+						obj.position.set(pixelX, baseHeight * obj.dimension.y * heightIncreaseFactor + offsetHeight);
+						rocks.add((Rock)obj);
+					} 
+					else {
+						rocks.get(rocks.size - 1).increaseLength(1);
+					}
+				}
+				//Player spawn point
+				else if (BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel)) {
+					
+				}
+				
+				//Feather
+				else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
+				 
+				}
+				
+				//Gold coin
+				else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)) {
+				 
+				}
+				 
+				//Unknown object/pixel color
+				else {
+					int r = 0xff & (currentPixel >>> 24); //Red color channel
+					int g = 0xff & (currentPixel >>> 16); //Green color channel
+					int b = 0xff & (currentPixel >>> 8); //Blue color channel
+					int a = 0xff & currentPixel; //Alpha channel
+					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<" + pixelY + ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">");
+				}
+				lastPixel = currentPixel;
+			}
+		}
 	}
 	
 	public void render (SpriteBatch batch) {
