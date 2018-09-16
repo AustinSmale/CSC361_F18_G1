@@ -54,7 +54,26 @@ public class Level {
 	}
 	
 	private void init (String filename) {
+		//Load image file that represents the level data
+		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		
+		//Scan pixels from top-left to bottom-right
+		int lastPixel = -1;
+		for (int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++) {
+			for (int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++) {
+				AbstractGameObject obj = null;
+				float offsetHeight = 0;
+				
+				//Height grows from bottom to top
+				float baseHeight = pixmap.getHeight() - pixelY;
+		 
+				//Get color of current pixel as 32-bit RGBA value
+				int currentPixel = pixmap.getPixel(pixelX, pixelY);
+				
+				/* Find matching color value to identify block type at (x,y)
+				 * point and create the corresponding game object if there is
+		  		 * a match 
+		  		 */
 	}
 	
 	public void render (SpriteBatch batch) {
