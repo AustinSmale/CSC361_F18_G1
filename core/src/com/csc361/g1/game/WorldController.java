@@ -77,9 +77,11 @@ public class WorldController extends InputAdapter {
 		return pixmap;
 	}
 
+	//Update Method
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
 		level.update(deltaTime);
+		testCollisions();
 		cameraHelper.update(deltaTime);
 	}
 
@@ -167,12 +169,17 @@ public class WorldController extends InputAdapter {
 	
 	//Method used when the bunny head touches the gold coin
 	private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {
-		
+		goldcoin.collected = true;
+		score += goldcoin.getScore();
+		Gdx.app.log(TAG, "Gold coin collected");
 	};
 	
 	//Method used when the bunny head touches the feather
 	private void onCollisionBunnyWithFeather(Feather feather) {
-		
+		feather.collected = true;
+		score += feather.getScore();
+		level.bunnyHead.setFeatherPowerup(true);
+		Gdx.app.log(TAG, "Feather collected");
 	};
 	
 	//Method is used to test the collision between the bunny head and an object
