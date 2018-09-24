@@ -138,7 +138,31 @@ public class WorldController extends InputAdapter {
 	
 	//Method used when the bunny head touches the rock
 	private void onCollisionBunnyHeadWithRock(Rock rock) {
+		BunnyHead bunnyHead = level.bunnyHead;
+		float heightDifference = Math.abs(bunnyHead.position.y - ( rock.position.y + rock.bounds.height));
+		if (heightDifference > 0.25f) {
+			boolean hitLeftEdge = bunnyHead.position.x > ( rock.position.x + rock.bounds.width / 2.0f);
+			if (hitLeftEdge) {
+				bunnyHead.position.x = rock.position.x + rock.bounds.width;
+			} else {
+				bunnyHead.position.x = rock.position.x - bunnyHead.bounds.width;
+			}
+			return;
+		};
 		
+		//Switch statement for jumpstate
+		switch (bunnyHead.jumpState) {
+		case GROUNDED:
+			break;
+		case FALLING:
+		case JUMP_FALLING:
+			bunnyHead.position.y = rock.position.y + bunnyHead.bounds.height + bunnyHead.origin.y;
+			bunnyHead.jumpState = JUMP_STATE.GROUNDED;
+			break;
+		case JUMP_RISING:
+			bunnyHead.position.y = rock.position.y + bunnyHead.bounds.height + bunnyHead.origin.y;
+			break;
+		 }
 	};
 	
 	//Method used when the bunny head touches the gold coin
