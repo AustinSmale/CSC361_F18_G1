@@ -90,6 +90,7 @@ public class WorldController extends InputAdapter {
 		if (Gdx.app.getType() != ApplicationType.Desktop)
 			return;
 
+		if (!cameraHelper.hasTarget(level.bunnyHead)) {
 		// Camera Controls (move)
 		float camMoveSpeed = 5 * deltaTime;
 		float camMoveSpeedAccelerationFactor = 5;
@@ -117,6 +118,7 @@ public class WorldController extends InputAdapter {
 			cameraHelper.addZoom(-camZoomSpeed);
 		if (Gdx.input.isKeyPressed(Keys.SLASH))
 			cameraHelper.setZoom(1);
+		}
 	}
 
 	private void moveCamera(float x, float y) {
@@ -127,10 +129,16 @@ public class WorldController extends InputAdapter {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// Reset game world
+		//Reset game world
 		if (keycode == Keys.R) {
 			init();
 			Gdx.app.debug(TAG, "Game world resetted");
+		}
+		
+		//Toggle camera follow
+		else if (keycode == Keys.ENTER) {
+			cameraHelper.setTarget(cameraHelper.hasTarget() ? null: level.bunnyHead);
+			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 		}
 		return false;
 	}
