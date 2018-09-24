@@ -17,17 +17,29 @@ import com.badlogic.gdx.Input.Keys;
 import com.csc361.g1.game.objects.Rock;
 import com.csc361.g1.util.Constants;
 
+//Chapter 6 Imports
+import com.badlogic.gdx.math.Rectangle;
+import com.csc361.g1.game.objects.BunnyHead;
+import com.csc361.g1.game.objects.BunnyHead.JUMP_STATE;
+import com.csc361.g1.game.objects.Feather;
+import com.csc361.g1.game.objects.GoldCoin;
+import com.csc361.g1.game.objects.Rock;
+
 import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
 
-	// Next 3 lines are added code from chapter 5.
+	//Next 3 lines are added code from chapter 5.
 	public Level level;
 	public int lives;
 	public int score;
 
 	public CameraHelper cameraHelper;
+	
+	//Rectangles for collision detection (Chapter 6)
+	private Rectangle r1 = new Rectangle();
+	private Rectangle r2 = new Rectangle();
 
 	public WorldController() {
 		init();
@@ -67,6 +79,7 @@ public class WorldController extends InputAdapter {
 
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
+		level.update(deltaTime);
 		cameraHelper.update(deltaTime);
 	}
 
@@ -118,4 +131,18 @@ public class WorldController extends InputAdapter {
 		}
 		return false;
 	}
+	
+	/*
+	 *  ======== Collision Code Below (Chapter 6) ========
+	 */
+	
+	//Method used when the bunny head touches the rock
+	private void onCollisionBunnyHeadWithRock(Rock rock) {
+		
+	};
+	
+	//Method used when the bunny head touches the gold coin
+	private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {
+		
+	};
 }
