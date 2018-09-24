@@ -62,8 +62,13 @@ public class Level {
 	}
 	
 	private void init (String filename) {
-		// need to initialize rock array here
+		//The player character
+		bunnyHead = null;
+
+		//Level Objects 
 		rocks = new Array<Rock>();
+		goldcoins = new Array<GoldCoin>();
+		feathers = new Array<Feather>();
 		
 		//Load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -106,17 +111,26 @@ public class Level {
 				}
 				//Player spawn point
 				else if (BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel)) {
-					
+					obj = new BunnyHead();
+					offsetHeight = -3.0f;
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					bunnyHead = (BunnyHead)obj;
 				}
 				
 				//Feather
 				else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
-				 
+					obj = new Feather();
+					offsetHeight = -1.5f;
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					feathers.add((Feather)obj);
 				}
 				
 				//Gold coin
 				else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)) {
-				 
+					obj = new GoldCoin();
+					offsetHeight = -1.5f;
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					goldcoins.add((GoldCoin)obj);
 				}
 				 
 				//Unknown object/pixel color
