@@ -57,6 +57,7 @@ public class WorldController extends InputAdapter {
 	private void initLevel() {
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
+		cameraHelper.setTarget(level.bunnyHead);
 	}
 
 	private Pixmap createProceduralPixmap(int width, int height) {
