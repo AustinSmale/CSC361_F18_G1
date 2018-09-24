@@ -81,6 +81,7 @@ public class WorldController extends InputAdapter {
 	//Update Method
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
+		handleInputGame(deltaTime);
 		level.update(deltaTime);
 		testCollisions();
 		cameraHelper.update(deltaTime);
@@ -220,6 +221,33 @@ public class WorldController extends InputAdapter {
 			if (!r1.overlaps(r2)) continue;
 				onCollisionBunnyWithFeather(feather);
 				break;
+		}
+	}
+	
+	/*
+	 * ============ Game Input Code Below (Chapter 6) ============
+	 */
+	
+	//Method handles the input from the user
+	private void handleInputGame (float deltaTime) {
+		if (cameraHelper.hasTarget(level.bunnyHead)) {
+			//Player Movement
+			if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+				level.bunnyHead.velocity.x = -level.bunnyHead.terminalVelocity.x;
+			} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+				level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
+		} else {
+			//Execute auto-forward movement on non-desktop platform
+			if (Gdx.app.getType() != ApplicationType.Desktop) {
+				level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
+			}
+		}
+			
+		//Bunny Jump
+		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE))
+			level.bunnyHead.setJumping(true);
+		} else {
+		 	level.bunnyHead.setJumping(false);
 		}
 	}
 }
