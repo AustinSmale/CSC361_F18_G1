@@ -15,9 +15,17 @@ import com.csc361.g1.game.objects.Clouds;
 import com.csc361.g1.game.objects.Mountains;
 import com.csc361.g1.game.objects.Rock;
 import com.csc361.g1.game.objects.WaterOverlay;
+//Chapter 6 Class Imports
+import com.csc361.g1.game.objects.BunnyHead;
+import com.csc361.g1.game.objects.Feather;
+import com.csc361.g1.game.objects.GoldCoin;
 
 public class Level {
 	public static final String TAG = Level.class.getName();
+	
+	public BunnyHead bunnyHead;
+	public Array<GoldCoin> goldcoins;
+	public Array<Feather> feathers;
 	
 	//Colors
 	public enum BLOCK_TYPE {
