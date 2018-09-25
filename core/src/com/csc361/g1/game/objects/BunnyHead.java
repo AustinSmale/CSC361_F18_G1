@@ -95,9 +95,48 @@ public class BunnyHead extends AbstractGameObject {
 		}
 	}
 
+	/**
+	 * Set the boolean instance variable true for hasFeatherPowerup and set the
+	 * duration to the constant time for the feather item. Can be picked up again
+	 * during its duration and reset the time
+	 * 
+	 * @param pickedUp
+	 *            whether or not a feather was picked up
+	 */
 	public void setFeatherPowerup(boolean pickedUp) {
-	};
+		hasFeatherPowerup = pickedUp;
+		if (pickedUp) {
+			timeLeftFeatherPowerup = Constants.ITEM_FEATHER_POWERUP_DURATION;
+		}
+	}
 
+	/**
+	 * Check to see that bunny head has time left on the feather power up and has
+	 * the power up
+	 * 
+	 * @return true or false depending on the conditions
+	 */
 	public boolean hasFeatherPowerup() {
+		return hasFeatherPowerup && timeLeftFeatherPowerup > 0;
+	}
+
+	/**
+	 * Override the update method to update the time remaining for the feather and
+	 * air time as well as the direction the bunny head is facing
+	 */
+	@Override
+	public void update(float deltaTime) {
+		super.update(deltaTime);
+		if (velocity.x != 0) {
+			viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
+		}
+		if (timeLeftFeatherPowerup > 0) {
+			timeLeftFeatherPowerup -= deltaTime;
+			if (timeLeftFeatherPowerup < 0) {
+				// disable power-up
+				timeLeftFeatherPowerup = 0;
+				setFeatherPowerup(false);
+			}
+		}
 	}
 }
