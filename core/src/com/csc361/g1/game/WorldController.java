@@ -37,6 +37,9 @@ public class WorldController extends InputAdapter {
 
 	public CameraHelper cameraHelper;
 	
+	//Time Left (Chapter 6)
+	private float timeLeftGameOverDelay;
+	
 	//Rectangles for collision detection (Chapter 6)
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
@@ -48,8 +51,8 @@ public class WorldController extends InputAdapter {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
-		// moved out of update() to here, caused world to keep updating with a new level
 		lives = Constants.LIVES_START;
+		timeLeftGameOverDelay = 0;
 		initLevel();
 	}
 
@@ -81,10 +84,28 @@ public class WorldController extends InputAdapter {
 	//Update Method
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
-		handleInputGame(deltaTime);
+		
+		//TimeLeft game over.
+		if (isGameOver()) {
+			timeLeftGameOverDelay -= deltaTime;
+			if (timeLeftGameOverDelay < 0)
+				init();
+		} else {
+			handleInputGame(deltaTime);
+		}
+		
 		level.update(deltaTime);
 		testCollisions();
 		cameraHelper.update(deltaTime);
+		
+		//Subtract lives when player hits the water.
+		if (!isGameOver() && isPlayerInWater()) {
+			lives--;
+			if (isGameOver())
+				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+			else
+				initLevel();
+		}
 	}
 
 	private void handleDebugInput(float deltaTime) {
@@ -142,6 +163,18 @@ public class WorldController extends InputAdapter {
 			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 		}
 		return false;
+	}
+	
+	// ======= Game Over Events (Chapter 6) =======
+	
+	//Method check if game is over.
+	public boolean isGameOver () {
+		return lives < 0;
+	}
+		
+	//Method checks if bunny head is in the water.
+	public boolean isPlayerInWater () {
+		return level.bunnyHead.position.y < -5;
 	}
 	
 	/*
