@@ -174,4 +174,23 @@ public class BunnyHead extends AbstractGameObject {
 		if (jumpState != JUMP_STATE.GROUNDED)
 			super.updateMotionY(deltaTime);
 	}
+
+	/**
+	 * Render the bunny head based on its positions and set the color if it has a
+	 * powerup
+	 */
+	@Override
+	public void render(SpriteBatch batch) {
+		TextureRegion reg = null;
+		// Set special color when game object has a feather power-up
+		if (hasFeatherPowerup)
+			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		// Draw image
+		reg = regHead;
+		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x,
+				scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),
+				viewDirection == VIEW_DIRECTION.LEFT, false);
+		// Reset color to white
+		batch.setColor(1, 1, 1, 1);
+	}
 }
