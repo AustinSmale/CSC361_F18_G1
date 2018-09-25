@@ -65,8 +65,35 @@ public class BunnyHead extends AbstractGameObject {
 		timeLeftFeatherPowerup = 0;
 	}
 
+	/**
+	 * If the jump key was pressed make the bunny head jump in game. Keeps track of
+	 * the states of the jump of the bunny head
+	 * 
+	 * @param jumpKeyPressed
+	 *            whether the key was pressed or not
+	 */
 	public void setJumping(boolean jumpKeyPressed) {
-	};
+		switch (jumpState) {
+		case GROUNDED: // Character is standing on a platform
+			if (jumpKeyPressed) {
+				// Start counting jump time from the beginning
+				timeJumping = 0;
+				jumpState = JUMP_STATE.JUMP_RISING;
+			}
+			break;
+		case JUMP_RISING: // Rising in the air
+			if (!jumpKeyPressed)
+				jumpState = JUMP_STATE.JUMP_FALLING;
+			break;
+		case FALLING:// Falling down
+		case JUMP_FALLING: // Falling down after jump
+			if (jumpKeyPressed && hasFeatherPowerup) {
+				timeJumping = JUMP_TIME_OFFSET_FLYING;
+				jumpState = JUMP_STATE.JUMP_RISING;
+			}
+			break;
+		}
+	}
 
 	public void setFeatherPowerup(boolean pickedUp) {
 	};
