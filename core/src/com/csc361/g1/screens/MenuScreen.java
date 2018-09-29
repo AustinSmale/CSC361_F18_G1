@@ -311,4 +311,35 @@ public class MenuScreen extends AbstractGameScreen {
 		btnMenuOptions.setVisible(true);
 		winOptions.setVisible(false);
 	}
+	
+	/*
+	 * Methos builds the audio settings table
+	 */
+	private Table buildOptWinAudioSettings () {
+		Table tbl = new Table();
+		
+		// Title: "Audio"
+		tbl.pad(10, 10, 0, 10);
+		tbl.add(new Label("Audio", skinLibgdx, "default-font", Color.ORANGE)).colspan(3);
+		tbl.row();
+		tbl.columnDefaults(0).padRight(10);
+		tbl.columnDefaults(1).padRight(10);
+		
+		// Checkbox, "Sound" label, sound volume slider
+		chkSound = new CheckBox("", skinLibgdx);
+		tbl.add(chkSound);
+		tbl.add(new Label("Sound", skinLibgdx));
+		sldSound = new Slider(0.0f, 1.0f, 0.1f, false, skinLibgdx);
+		tbl.add(sldSound);
+		tbl.row();
+		
+		// Checkbox, "Music" label, music volume slider
+		chkMusic = new CheckBox("", skinLibgdx);
+		tbl.add(chkMusic);
+		tbl.add(new Label("Music", skinLibgdx));
+		sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, skinLibgdx);
+		tbl.add(sldMusic);
+		tbl.row();
+		return tbl;
+	}
 }
