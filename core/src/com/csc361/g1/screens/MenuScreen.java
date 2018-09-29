@@ -115,6 +115,7 @@ public class MenuScreen extends AbstractGameScreen {
 	public void hide () { 
 		stage.dispose();
 		skinCanyonBunny.dispose();
+		skinLibgdx.dispose();
 	}
 	
 	/*
@@ -133,6 +134,7 @@ public class MenuScreen extends AbstractGameScreen {
 	 */
 	private void rebuildStage () {
 		skinCanyonBunny = new Skin(Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
+		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
 		
 		// First, Build All Layers
 		Table layerBackground = buildBackgroundLayer();
@@ -283,5 +285,30 @@ public class MenuScreen extends AbstractGameScreen {
 		prefs.charSkin = selCharSkin.getSelectionIndex();
 		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
 		prefs.save();
+	}
+	
+	/*
+	 * Selected Skin Method
+	 */
+	private void onCharSkinSelected(int index) {
+		CharacterSkin skin = CharacterSkin.values()[index];
+		imgCharSkin.setColor(skin.getColor());
+	}
+	
+	/*
+	 * Save Button Click
+	 */
+	private void onSaveClicked() {
+		saveSettings();
+		onCancelClicked();
+	}
+	
+	/*
+	 * Cancel Button Click
+	 */
+	private void onCancelClicked() {
+		btnMenuPlay.setVisible(true);
+		btnMenuOptions.setVisible(true);
+		winOptions.setVisible(false);
 	}
 }
