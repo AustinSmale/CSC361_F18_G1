@@ -104,4 +104,30 @@ public class MenuScreen extends AbstractGameScreen {
 	public void pause () {
 		
 	}
+	
+	/*
+	 *  ========== Chapter 7 Stage Building Code Below ==========
+	 */
+	
+	private void rebuildStage () {
+		skinCanyonBunny = new Skin(Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
+		
+		// First, Build All Layers
+		Table layerBackground = buildBackgroundLayer();
+		Table layerObjects = buildObjectsLayer();
+		Table layerLogos = buildLogosLayer();
+		Table layerControls = buildControlsLayer();
+		Table layerOptionsWindow = buildOptionsWindowLayer();
+		
+		// Then, Assemble stage for menu screen
+		stage.clear();
+		Stack stack = new Stack();
+		stage.addActor(stack);
+		stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+		stack.add(layerBackground);
+		stack.add(layerObjects);
+		stack.add(layerLogos);
+		stack.add(layerControls);
+		stage.addActor(layerOptionsWindow);
+	}
 }
