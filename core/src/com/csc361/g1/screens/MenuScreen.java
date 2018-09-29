@@ -6,11 +6,12 @@ package com.csc361.g1.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 
 //UI Imports
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -30,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csc361.g1.game.Assets;
 import com.csc361.g1.util.Constants;
 
-import com.csc361.g1.util.util.CharacterSkin;
-import com.csc361.g1.util.util.GamePreferences;
+import com.csc361.g1.util.CharacterSkin;
+import com.csc361.g1.util.GamePreferences;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -77,7 +78,7 @@ public class MenuScreen extends AbstractGameScreen {
 	
 	public void render (float deltaTime) {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (debugEnabled) {
 			debugRebuildStage -= deltaTime;
 			if (debugRebuildStage <= 0) {
@@ -87,7 +88,10 @@ public class MenuScreen extends AbstractGameScreen {
 		}
 		stage.act(deltaTime);
 		stage.draw();
-		Table.drawDebug(stage);
+		//Book version that was removed
+		//Table.drawDebug(stage);
+		//My version to fix it
+		stage.setDebugAll(true);
 		
 		if(Gdx.input.isTouched())
 			game.setScreen(new GameScreen(game));
@@ -97,7 +101,10 @@ public class MenuScreen extends AbstractGameScreen {
 	 * Method resizes the screen
 	 */
 	public void resize (int width, int height) {
-		stage.setViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT, false);
+		//Book version that does not work
+		//stage.setViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT, false);
+		//My version
+		stage.getViewport();
 	}
 	
 	/*
@@ -299,7 +306,10 @@ public class MenuScreen extends AbstractGameScreen {
 		sldSound.setValue(prefs.volSound);
 		chkMusic.setChecked(prefs.music);
 		sldMusic.setValue(prefs.volMusic);
-		selCharSkin.setSelection(prefs.charSkin);
+		//Old Version in book
+		//selCharSkin.setSelection(prefs.charSkin);
+		//My Fix
+		selCharSkin.setSelected(prefs.charSkin);
 		onCharSkinSelected(prefs.charSkin);
 		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
 	}
@@ -313,7 +323,10 @@ public class MenuScreen extends AbstractGameScreen {
 		prefs.volSound = sldSound.getValue();
 		prefs.music = chkMusic.isChecked();
 		prefs.volMusic = sldMusic.getValue();
-		prefs.charSkin = selCharSkin.getSelectionIndex();
+		//Book version
+		//prefs.charSkin = selCharSkin.getSelectionIndex();
+		//My Fix
+		prefs.charSkin = selCharSkin.getSelectedIndex();
 		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
 		prefs.save();
 	}
@@ -386,11 +399,14 @@ public class MenuScreen extends AbstractGameScreen {
 		tbl.row();
 		
 		// Drop down box filled with skin items
-		selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
+		//Book Version
+		//selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
+		//My Version
+		selCharSkin = new SelectBox(skinLibgdx);
 		selCharSkin.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				onCharSkinSelected(((SelectBox)actor).getSelectionIndex());
+				onCharSkinSelected(((SelectBox)actor).getSelectedIndex());
 			}
 		});
 		tbl.add(selCharSkin).width(120).padRight(20);
