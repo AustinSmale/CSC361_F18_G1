@@ -243,7 +243,10 @@ public class MenuScreen extends AbstractGameScreen {
 			
 	//Options button clicked
 	private void onOptionsClicked () {
-				
+		loadSettings();
+		btnMenuPlay.setVisible(false);
+		btnMenuOptions.setVisible(false);
+		winOptions.setVisible(true);
 	}
 	
 	/*
@@ -251,6 +254,34 @@ public class MenuScreen extends AbstractGameScreen {
 	 */
 	private Table buildOptionsWindowLayer () {
 		Table layer = new Table();
+		winOptions = new Window("Options", skinLibgdx);
+		
+		// Audio Settings: Sound/Music CheckBox and Volume Slider
+		winOptions.add(buildOptWinAudioSettings()).row();
+		
+		// Character Skin: Selection Box (White, Gray, Brown)
+		winOptions.add(buildOptWinSkinSelection()).row();
+		
+		// Debug: Show FPS Counter
+		winOptions.add(buildOptWinDebug()).row();
+		
+		// Separator and Buttons (Save, Cancel)
+		winOptions.add(buildOptWinButtons()).pad(10, 0, 10, 0);
+		
+		// Make options window slightly transparent
+		winOptions.setColor(1, 1, 1, 0.8f);
+		
+		// Hide options window by default
+		winOptions.setVisible(false);
+		if (debugEnabled)
+			winOptions.debug();
+		
+		// Let TableLayout recalculate widget sizes and positions
+		winOptions.pack();
+		
+		// Move options window to bottom right corner
+		winOptions.setPosition(
+		Constants.VIEWPORT_GUI_WIDTH - winOptions.getWidth() - 50, 50);
 		return layer;
 	}
 	
