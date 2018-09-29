@@ -2,19 +2,21 @@ package com.csc361.g1;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.csc361.g1.game.Assets;
 import com.csc361.g1.game.WorldController;
 import com.csc361.g1.game.WorldRenderer;
+import com.csc361.g1.screens.MenuScreen;
 
 /**
  * Main class to render game
  * @author Austin Smale
  *
  */
-public class CanyonBunnyMain implements ApplicationListener{
+public class CanyonBunnyMain extends Game{
 	private static final String TAG = CanyonBunnyMain.class.getName();
 	
 	private WorldController worldController;
@@ -32,11 +34,8 @@ public class CanyonBunnyMain implements ApplicationListener{
 		// Load Assets
 		Assets.instance.init(new AssetManager());
 		
-		// Initialize controller and renderer
-		worldController = new WorldController();
-		worldRenderer = new WorldRenderer(worldController);
-		// Game world is active on start
-		paused = false;
+		//Start the game at the menu screen
+		setScreen(new MenuScreen(this));
 	}
 	
 	/**
