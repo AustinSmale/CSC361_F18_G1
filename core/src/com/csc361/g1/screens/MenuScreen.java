@@ -81,21 +81,24 @@ public class MenuScreen extends AbstractGameScreen {
 	 * Method resizes the screen
 	 */
 	public void resize (int width, int height) {
-		
+		stage.setViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT, false);
 	}
 	
 	/*
 	 * Method makes the screen visible
 	 */
 	public void show () {
-		
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+		rebuildStage();
 	}
 	
 	/*
 	 * Method hides the screen from view
 	 */
 	public void hide () { 
-		
+		stage.dispose();
+		skinCanyonBunny.dispose();
 	}
 	
 	/*
@@ -109,6 +112,9 @@ public class MenuScreen extends AbstractGameScreen {
 	 *  ========== Chapter 7 Stage Building Code Below ==========
 	 */
 	
+	/*
+	 * Method builds the menu screen.
+	 */
 	private void rebuildStage () {
 		skinCanyonBunny = new Skin(Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
 		
@@ -129,5 +135,45 @@ public class MenuScreen extends AbstractGameScreen {
 		stack.add(layerLogos);
 		stack.add(layerControls);
 		stage.addActor(layerOptionsWindow);
+	}
+	
+	/*
+	 * Method builds the background layer of the menu screen
+	 */
+	private Table buildBackgroundLayer () {
+		Table layer = new Table();
+		return layer;
+	}
+	
+	/*
+	 * Method builds the object layer of the menu screen
+	 */
+	private Table buildObjectsLayer () {
+		Table layer = new Table();
+		return layer;
+	}
+	
+	/*
+	 * Method builds the logo layer of the menu screen
+	 */
+	private Table buildLogosLayer () {
+		Table layer = new Table();
+		return layer;
+	}
+	
+	/*
+	 * Method builds the control layer of the menu screen
+	 */
+	private Table buildControlsLayer () {
+		Table layer = new Table();
+		return layer;
+	}
+	
+	/*
+	 * Method builds the options window layer of the menu screen
+	 */
+	private Table buildOptionsWindowLayer () {
+		Table layer = new Table();
+		return layer;
 	}
 }
