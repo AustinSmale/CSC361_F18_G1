@@ -357,10 +357,10 @@ public class MenuScreen extends AbstractGameScreen {
 		// Drop down box filled with skin items
 		selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
 		selCharSkin.addListener(new ChangeListener() {
-		@Override
-		public void changed (ChangeEvent event, Actor actor) {
-			onCharSkinSelected(((SelectBox)actor).getSelectionIndex());
-		}
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				onCharSkinSelected(((SelectBox)actor).getSelectionIndex());
+			}
 		});
 		tbl.add(selCharSkin).width(120).padRight(20);
 		 
@@ -388,6 +388,49 @@ public class MenuScreen extends AbstractGameScreen {
 		tbl.add(new Label("Show FPS Counter", skinLibgdx));
 		tbl.add(chkShowFpsCounter);
 		tbl.row();
+		return tbl;
+	}
+	
+	/*
+	 * Method is the save and cancel buttons at the bottom of the options window
+	 */
+	private Table buildOptWinButtons () {
+		Table tbl = new Table();
+		
+		// Separator
+		Label lbl = null;
+		lbl = new Label("", skinLibgdx);
+		lbl.setColor(0.75f, 0.75f, 0.75f, 1);
+		lbl.setStyle(new LabelStyle(lbl.getStyle()));
+		lbl.getStyle().background = skinLibgdx.newDrawable("white");
+		tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 0, 0, 1);
+		tbl.row();
+		lbl = new Label("", skinLibgdx);
+		lbl.setColor(0.5f, 0.5f, 0.5f, 1);
+		lbl.setStyle(new LabelStyle(lbl.getStyle()));
+		lbl.getStyle().background = skinLibgdx.newDrawable("white");
+		tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 1, 5, 0);
+		tbl.row();
+		 
+		// Save Button with event handler
+		btnWinOptSave = new TextButton("Save", skinLibgdx);
+		tbl.add(btnWinOptSave).padRight(30);
+		btnWinOptSave.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				onSaveClicked();
+			}
+		});
+		 
+		// Cancel Button with event handler
+		btnWinOptCancel = new TextButton("Cancel", skinLibgdx);
+		tbl.add(btnWinOptCancel);
+		btnWinOptCancel.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				onCancelClicked();
+			}
+		});
 		return tbl;
 	}
 }
