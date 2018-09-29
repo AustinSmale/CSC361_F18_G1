@@ -1,3 +1,5 @@
+package com.csc361.g1.screens;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -6,6 +8,7 @@ import com.csc361.g1.game.WorldRenderer;
 
 /**
  * The Game Screen in Canyon Bunny
+ * 
  * @author Austin
  *
  */
@@ -17,6 +20,7 @@ public class GameScreen extends AbstractGameScreen {
 
 	/**
 	 * Constructor of GameScreen, sends super class the game
+	 * 
 	 * @param game
 	 */
 	public GameScreen(Game game) {
@@ -40,5 +44,50 @@ public class GameScreen extends AbstractGameScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		// Render game world to screen
 		worldRenderer.render();
+	}
+
+	/**
+	 * Resize the game screen if the user changes the size of the game
+	 */
+	@Override
+	public void resize(int width, int height) {
+		worldRenderer.resize(width, height);
+	}
+
+	/**
+	 * Show the game using the world controller, need to add a constructor
+	 */
+	@Override
+	public void show() {
+		worldController = new WorldController(game);
+		worldRenderer = new WorldRenderer(worldController);
+		Gdx.input.setCatchBackKey(true);
+	}
+
+	/**
+	 * Hide the screen if the use minimizes the game
+	 */
+	@Override
+	public void hide() {
+		worldRenderer.dispose();
+		Gdx.input.setCatchBackKey(false);
+	}
+
+	/**
+	 * If the user pauses set paused to true so nothing updates
+	 */
+	@Override
+	public void pause() {
+		paused = true;
+	}
+
+	/**
+	 * If the user resumes then continue to update the game
+	 */
+	@Override
+	public void resume() {
+		super.resume();
+		// Only called on Android!
+		paused = false;
 	}
 }
