@@ -30,12 +30,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.csc361.g1.game.Assets;
 import com.csc361.g1.util.Constants;
 
+import com.csc361.g1.util.util.CharacterSkin;
+import com.csc361.g1.util.util.GamePreferences;
+
 public class MenuScreen extends AbstractGameScreen {
 
 	private static final String TAG = MenuScreen.class.getName();
 	
 	private Stage stage;
 	private Skin skinCanyonBunny;
+	
+	private Skin skinLibgdx;
 	
 	// Menu Stuff
 	private Image imgBackground;
@@ -245,5 +250,38 @@ public class MenuScreen extends AbstractGameScreen {
 	private Table buildOptionsWindowLayer () {
 		Table layer = new Table();
 		return layer;
+	}
+	
+	/*
+	 *  ========== Chapter 7 Personal Settings Methods Below ==========
+	 */
+	
+	/*
+	 * Method loads preferences
+	 */
+	private void loadSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.load();
+		chkSound.setChecked(prefs.sound);
+		sldSound.setValue(prefs.volSound);
+		chkMusic.setChecked(prefs.music);
+		sldMusic.setValue(prefs.volMusic);
+		selCharSkin.setSelection(prefs.charSkin);
+		onCharSkinSelected(prefs.charSkin);
+		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
+	}
+	
+	/*
+	 * Method saves preferences
+	 */
+	private void saveSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.sound = chkSound.isChecked();
+		prefs.volSound = sldSound.getValue();
+		prefs.music = chkMusic.isChecked();
+		prefs.volMusic = sldMusic.getValue();
+		prefs.charSkin = selCharSkin.getSelectionIndex();
+		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
+		prefs.save();
 	}
 }
