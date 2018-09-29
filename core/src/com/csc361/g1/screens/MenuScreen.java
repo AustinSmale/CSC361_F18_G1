@@ -73,6 +73,17 @@ public class MenuScreen extends AbstractGameScreen {
 	public void render (float deltaTime) {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		if (debugEnabled) {
+			debugRebuildStage -= deltaTime;
+			if (debugRebuildStage <= 0) {
+				debugRebuildStage = DEBUG_REBUILD_INTERVAL;
+				rebuildStage();
+			}
+		}
+		stage.act(deltaTime);
+		stage.draw();
+		Table.drawDebug(stage);
+		
 		if(Gdx.input.isTouched())
 			game.setScreen(new GameScreen(game));
 	}
@@ -190,7 +201,42 @@ public class MenuScreen extends AbstractGameScreen {
 	 */
 	private Table buildControlsLayer () {
 		Table layer = new Table();
+		layer.right().bottom();
+		
+		// Play Button
+		btnMenuPlay = new Button(skinCanyonBunny, "play");
+		layer.add(btnMenuPlay);
+		btnMenuPlay.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				onPlayClicked();
+			}
+		});
+		layer.row();
+		 
+		// Options Button
+		btnMenuOptions = new Button(skinCanyonBunny, "options");
+		layer.add(btnMenuOptions);
+		btnMenuOptions.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				onOptionsClicked();
+			}
+		});
+		
+		if (debugEnabled)
+			layer.debug();
 		return layer;
+	}
+	
+	//Playbutton Clicked
+	private void onPlayClicked () {
+		game.setScreen(new GameScreen(game));
+	}
+			
+	//Options button clicked
+	private void onOptionsClicked () {
+				
 	}
 	
 	/*
