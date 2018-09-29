@@ -39,4 +39,7 @@ public class Constants {
 	// Location of description file for skins
 	public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
 	public static final String SKIN_CANYONBUNNY_UI = "images/canyonbunny-ui.json";
+
+	//Prefs book does not have
+	public static final String PREFERENCES = "canyonbunny.prefs";
 }
