@@ -39,6 +39,16 @@ public class GamePreferences {
 		showFpsCounter = prefs.getBoolean("showFpsCounter", false);
 	}
 
+	/**
+	 * Save the user settings if they are changed for future use
+	 */
 	public void save() {
+		prefs.putBoolean("sound", sound);
+		prefs.putBoolean("music", music);
+		prefs.putFloat("volSound", volSound);
+		prefs.putFloat("volMusic", volMusic);
+		prefs.putInteger("charSkin", charSkin);
+		prefs.putBoolean("showFpsCounter", showFpsCounter);
+		prefs.flush();
 	}
 }
