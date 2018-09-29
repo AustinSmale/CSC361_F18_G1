@@ -26,6 +26,9 @@ public class DesktopLauncher {
 			settings.debug = drawDebugOutline;
 			// process the texture and add it to a pack
 			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.atlas");
+			TexturePacker.process(settings, "assets-raw/images-ui",
+					"../core/assets/images",
+					"canyonbunny-ui.pack");
 		}
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "CanyonBunny";
