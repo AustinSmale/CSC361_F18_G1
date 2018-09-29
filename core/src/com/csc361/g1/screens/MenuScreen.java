@@ -313,7 +313,7 @@ public class MenuScreen extends AbstractGameScreen {
 	}
 	
 	/*
-	 * Methos builds the audio settings table
+	 * Methods builds the audio settings table
 	 */
 	private Table buildOptWinAudioSettings () {
 		Table tbl = new Table();
@@ -339,6 +339,54 @@ public class MenuScreen extends AbstractGameScreen {
 		tbl.add(new Label("Music", skinLibgdx));
 		sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, skinLibgdx);
 		tbl.add(sldMusic);
+		tbl.row();
+		return tbl;
+	}
+	
+	/*
+	 * Method builds the skin selection table
+	 */
+	private Table buildOptWinSkinSelection () {
+		Table tbl = new Table();
+		
+		// Title: "Character Skin"
+		tbl.pad(10, 10, 0, 10);
+		tbl.add(new Label("Character Skin", skinLibgdx, "default-font", Color.ORANGE)).colspan(2);
+		tbl.row();
+		
+		// Drop down box filled with skin items
+		selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
+		selCharSkin.addListener(new ChangeListener() {
+		@Override
+		public void changed (ChangeEvent event, Actor actor) {
+			onCharSkinSelected(((SelectBox)actor).getSelectionIndex());
+		}
+		});
+		tbl.add(selCharSkin).width(120).padRight(20);
+		 
+		// Skin preview image
+		imgCharSkin = new Image(Assets.instance.bunny.head);
+		tbl.add(imgCharSkin).width(50).height(50);
+		return tbl;
+	}
+	
+	/*
+	 * Method builds debug options table
+	 */
+	private Table buildOptWinDebug () {
+		Table tbl = new Table();
+		
+		// Title: "Debug"
+		tbl.pad(10, 10, 0, 10);
+		tbl.add(new Label("Debug", skinLibgdx, "default-font", Color.RED)).colspan(3);
+		tbl.row();
+		tbl.columnDefaults(0).padRight(10);
+		tbl.columnDefaults(1).padRight(10);
+		
+		// Checkbox, "Show FPS Counter" label
+		chkShowFpsCounter = new CheckBox("", skinLibgdx);
+		tbl.add(new Label("Show FPS Counter", skinLibgdx));
+		tbl.add(chkShowFpsCounter);
 		tbl.row();
 		return tbl;
 	}
