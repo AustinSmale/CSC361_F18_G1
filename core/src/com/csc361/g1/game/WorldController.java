@@ -127,6 +127,8 @@ public class WorldController extends InputAdapter {
 			else
 				initLevel();
 		}
+		// Update the Mountains for a nice parallax effect
+		level.mountains.updateScrollPosition(cameraHelper.getPosition());
 	}
 
 	private void handleDebugInput(float deltaTime) {
