@@ -93,8 +93,9 @@ public class MenuScreen extends AbstractGameScreen {
 		//My version to fix it
 		stage.setDebugAll(true);
 		
-		if(Gdx.input.isTouched())
-			game.setScreen(new GameScreen(game));
+		//Line below is a debug that starts the game with any click inside the screen
+		//if(Gdx.input.isTouched())
+			//game.setScreen(new GameScreen(game));
 	}
 	
 	/*
@@ -287,9 +288,8 @@ public class MenuScreen extends AbstractGameScreen {
 		winOptions.pack();
 		
 		// Move options window to bottom right corner
-		winOptions.setPosition(
-		Constants.VIEWPORT_GUI_WIDTH - winOptions.getWidth() - 50, 50);
-		return layer;
+		winOptions.setPosition(Constants.VIEWPORT_GUI_WIDTH - winOptions.getWidth() - 50, 50);
+		return winOptions;
 	}
 	
 	/*
