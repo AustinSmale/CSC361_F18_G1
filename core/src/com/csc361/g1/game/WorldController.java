@@ -135,6 +135,8 @@ public class WorldController extends InputAdapter {
 		}
 		// Update the Mountains for a nice parallax effect
 		level.mountains.updateScrollPosition(cameraHelper.getPosition());
+		if (livesVisual > lives)
+			livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
 	}
 
 	private void handleDebugInput(float deltaTime) {
