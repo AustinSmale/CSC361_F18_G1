@@ -10,11 +10,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.csc361.g1.util.CameraHelper;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
 //Class Imports
 import com.csc361.g1.game.objects.Rock;
+import com.csc361.g1.screens.MenuScreen;
 import com.csc361.g1.util.Constants;
 
 //Chapter 6 Imports
@@ -35,6 +37,9 @@ public class WorldController extends InputAdapter {
 	public int lives;
 	public int score;
 
+	// The game we are controlling
+	private Game game;
+
 	public CameraHelper cameraHelper;
 
 	// Time Left (Chapter 6)
@@ -44,7 +49,15 @@ public class WorldController extends InputAdapter {
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
 
-	public WorldController() {
+	/**
+	 * Constructor that keeps track of the game, and initializes the world
+	 * controller
+	 * 
+	 * @param game
+	 *            the game to control
+	 */
+	public WorldController(Game game) {
+		this.game = game;
 		init();
 	}
 
@@ -61,6 +74,14 @@ public class WorldController extends InputAdapter {
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.bunnyHead);
+	}
+
+	/**
+	 * Go back to the main menu screen
+	 */
+	private void backToMenu() {
+		// switch to menu screen
+		game.setScreen(new MenuScreen(game));
 	}
 
 	private Pixmap createProceduralPixmap(int width, int height) {
@@ -89,7 +110,7 @@ public class WorldController extends InputAdapter {
 		if (isGameOver()) {
 			timeLeftGameOverDelay -= deltaTime;
 			if (timeLeftGameOverDelay < 0)
-				init();
+				backToMenu();
 		} else {
 			handleInputGame(deltaTime);
 		}
@@ -161,6 +182,10 @@ public class WorldController extends InputAdapter {
 		else if (keycode == Keys.ENTER) {
 			cameraHelper.setTarget(cameraHelper.hasTarget() ? null : level.bunnyHead);
 			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
+		}
+		// If the user hits escape or back, go to menu screen
+		else if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
+			backToMenu();
 		}
 		return false;
 	}
