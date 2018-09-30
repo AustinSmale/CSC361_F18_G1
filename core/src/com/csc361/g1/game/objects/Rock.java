@@ -9,10 +9,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csc361.g1.game.Assets;
 
+//Chapter 8 Imports
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+
 public class Rock extends AbstractGameObject {
 	private TextureRegion regEdge;
 	private TextureRegion regMiddle;
 	private int length;
+	
+	private final float FLOAT_CYCLE_TIME = 2.0f;
+	private final float FLOAT_AMPLITUDE = 0.25f;
+	private float floatCycleTimeLeft;
+	private boolean floatingDownwards;
+	private Vector2 floatTargetPosition;
 	
 	//Rock Method
 	public Rock () {
@@ -24,8 +34,14 @@ public class Rock extends AbstractGameObject {
 		dimension.set(1, 1.5f);
 		regEdge = Assets.instance.rock.edge;
 		regMiddle = Assets.instance.rock.middle;
+		
 		//Start length of this rock
 		setLength(1);
+		
+		floatingDownwards = false;
+		floatCycleTimeLeft = MathUtils.random(0,
+		FLOAT_CYCLE_TIME / 2);
+		floatTargetPosition = null;
 	}
 	
 	//Sets the length of the rock
@@ -64,5 +80,22 @@ public class Rock extends AbstractGameObject {
 		//Draw right edge
 		reg = regEdge;
 		batch.draw(reg.getTexture(), position.x + relX, position.y + relY, origin.x + dimension.x / 8, origin.y, dimension.x / 4, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), true, false);
+	}
+	
+	/*
+	 * Method Updates the rock's presents as time progresses.
+	 */
+	@Override
+	public void update (float deltaTime) {
+		super.update(deltaTime);
+		floatCycleTimeLeft -= deltaTime;
+		if (floatTargetPosition == null)
+			floatTargetPosition = new Vector2(position);
+		if (floatCycleTimeLeft <= 0) {
+			floatCycleTimeLeft = FLOAT_CYCLE_TIME;
+			floatingDownwards = !floatingDownwards;
+			floatTargetPosition.y += FLOAT_AMPLITUDE * (floatingDownwards ? -1 : 1);
+		}
+		position.lerp(floatTargetPosition, deltaTime);
 	}
 }
