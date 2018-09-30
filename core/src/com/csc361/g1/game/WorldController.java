@@ -36,6 +36,7 @@ public class WorldController extends InputAdapter {
 	public Level level;
 	public int lives;
 	public int score;
+	public float livesVisual;
 
 	// The game we are controlling
 	private Game game;
@@ -61,10 +62,15 @@ public class WorldController extends InputAdapter {
 		init();
 	}
 
+	/**
+	 * Initialize the instance variables then world when created
+	 */
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
+		//Chapter 8 below
+		livesVisual = lives;
 		timeLeftGameOverDelay = 0;
 		initLevel();
 	}
