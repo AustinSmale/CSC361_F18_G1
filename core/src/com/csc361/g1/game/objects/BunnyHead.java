@@ -1,6 +1,7 @@
 package com.csc361.g1.game.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.csc361.g1.game.Assets;
@@ -16,6 +17,7 @@ import com.csc361.g1.util.GamePreferences;
  */
 public class BunnyHead extends AbstractGameObject {
 	public static final String TAG = BunnyHead.class.getName();
+	public ParticleEffect dustParticles = new ParticleEffect();
 	private final float JUMP_TIME_MAX = 0.3f;
 	private final float JUMP_TIME_MIN = 0.1f;
 	private final float JUMP_TIME_OFFSET_FLYING = JUMP_TIME_MAX - 0.018f;
@@ -65,6 +67,8 @@ public class BunnyHead extends AbstractGameObject {
 		// Power-ups
 		hasFeatherPowerup = false;
 		timeLeftFeatherPowerup = 0;
+		// Particles
+		dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
 	}
 
 	/**
