@@ -68,7 +68,7 @@ public class BunnyHead extends AbstractGameObject {
 		hasFeatherPowerup = false;
 		timeLeftFeatherPowerup = 0;
 		// Particles
-		dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
+		dustParticles.load(Gdx.files.internal("particles/dust.p"), Gdx.files.internal("particles"));
 	}
 
 	/**
@@ -144,6 +144,7 @@ public class BunnyHead extends AbstractGameObject {
 				setFeatherPowerup(false);
 			}
 		}
+		dustParticles.update(deltaTime);
 	}
 
 	/**
@@ -156,6 +157,11 @@ public class BunnyHead extends AbstractGameObject {
 		switch (jumpState) {
 		case GROUNDED:
 			jumpState = JUMP_STATE.FALLING;
+			// Only draw the dust if the bunny head is on the ground
+			if (velocity.x != 0) {
+				dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+				dustParticles.start();
+			}
 			break;
 		case JUMP_RISING:
 			// Keep track of jump time
@@ -178,6 +184,7 @@ public class BunnyHead extends AbstractGameObject {
 			}
 		}
 		if (jumpState != JUMP_STATE.GROUNDED)
+			dustParticles.allowCompletion();
 			super.updateMotionY(deltaTime);
 	}
 
@@ -188,6 +195,9 @@ public class BunnyHead extends AbstractGameObject {
 	@Override
 	public void render(SpriteBatch batch) {
 		TextureRegion reg = null;
+
+		// Draw Particles
+		dustParticles.draw(batch);
 
 		// Apply Skin Color
 		batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
