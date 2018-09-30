@@ -37,6 +37,7 @@ public class WorldController extends InputAdapter {
 	public int lives;
 	public int score;
 	public float livesVisual;
+	public float scoreVisual;
 
 	// The game we are controlling
 	private Game game;
@@ -69,7 +70,7 @@ public class WorldController extends InputAdapter {
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
-		//Chapter 8 below
+		// Chapter 8 below
 		livesVisual = lives;
 		timeLeftGameOverDelay = 0;
 		initLevel();
@@ -78,6 +79,8 @@ public class WorldController extends InputAdapter {
 	// Initializes the level
 	private void initLevel() {
 		score = 0;
+		// chapter 8 below
+		scoreVisual = score;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.bunnyHead);
 	}
@@ -137,6 +140,8 @@ public class WorldController extends InputAdapter {
 		level.mountains.updateScrollPosition(cameraHelper.getPosition());
 		if (livesVisual > lives)
 			livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+		// Update the score from chapter 8
+		scoreVisual = Math.min(score, scoreVisual + 250 * deltaTime);
 	}
 
 	private void handleDebugInput(float deltaTime) {
