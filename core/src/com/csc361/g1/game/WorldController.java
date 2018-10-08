@@ -257,6 +257,8 @@ public class WorldController extends InputAdapter {
 	// Method used when the bunny head touches the gold coin
 	private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {
 		goldcoin.collected = true;
+		// play sound when coin is picked up
+		AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
 		score += goldcoin.getScore();
 		Gdx.app.log(TAG, "Gold coin collected");
 	};
@@ -264,6 +266,8 @@ public class WorldController extends InputAdapter {
 	// Method used when the bunny head touches the feather
 	private void onCollisionBunnyWithFeather(Feather feather) {
 		feather.collected = true;
+		// play sound when feather is collected
+		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += feather.getScore();
 		level.bunnyHead.setFeatherPowerup(true);
 		Gdx.app.log(TAG, "Feather collected");
