@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
+import com.badlogic.gdx.audio.Music; 
+import com.badlogic.gdx.audio.Sound; 
+
 import com.csc361.g1.util.Constants;
 
 public class Assets implements Disposable, AssetErrorListener {
@@ -25,7 +28,17 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 	private AssetManager assetManager;
 	public AssetFonts fonts;
+	public AssetSounds sounds;
+	public AssetMusic music;
 
+	public class AssetSounds {
+		 public final Sound jump;
+		 public final Sound jumpWithFeather;
+		 public final Sound pickupCoin;
+		 public final Sound pickupFeather;
+		 public final Sound liveLost;
+	}
+	
 	// Singleton Pattern: prevents instantiation from the other classes.
 	private Assets() {
 
