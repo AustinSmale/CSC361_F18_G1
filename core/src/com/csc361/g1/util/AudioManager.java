@@ -36,4 +36,34 @@ public class AudioManager {
 			return;
 		sound.play(GamePreferences.instance.volSound * volume, pitch, pan);
 	}
+	
+	//Plays background music
+	public void play (Music music) {
+		stopMusic();
+		playingMusic = music;
+		if (GamePreferences.instance.music) {
+			music.setLooping(true);
+			music.setVolume(GamePreferences.instance.volMusic);
+			music.play();
+		}
+	}
+	
+	//Stops the already playing music
+	public void stopMusic () {
+		if (playingMusic != null) 
+			playingMusic.stop();
+	}
+		
+	//Updates music
+	public void onSettingsUpdated () {
+		if (playingMusic == null)
+			return;
+		playingMusic.setVolume(GamePreferences.instance.volMusic);
+		if (GamePreferences.instance.music) {
+			if (!playingMusic.isPlaying()) 
+				playingMusic.play();
+		} else {
+			playingMusic.pause();
+		}
+	}
 }
