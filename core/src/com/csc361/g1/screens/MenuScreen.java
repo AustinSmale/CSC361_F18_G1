@@ -33,16 +33,17 @@ import com.csc361.g1.util.Constants;
 
 import com.csc361.g1.util.CharacterSkin;
 import com.csc361.g1.util.GamePreferences;
+import com.csc361.g1.util.AudioManager;
 
 public class MenuScreen extends AbstractGameScreen {
 
 	private static final String TAG = MenuScreen.class.getName();
-	
+
 	private Stage stage;
 	private Skin skinCanyonBunny;
-	
+
 	private Skin skinLibgdx;
-	
+
 	// Menu Stuff
 	private Image imgBackground;
 	private Image imgLogo;
@@ -51,7 +52,7 @@ public class MenuScreen extends AbstractGameScreen {
 	private Image imgBunny;
 	private Button btnMenuPlay;
 	private Button btnMenuOptions;
-	 
+
 	// Options Stuff
 	private Window winOptions;
 	private TextButton btnWinOptSave;
@@ -63,20 +64,20 @@ public class MenuScreen extends AbstractGameScreen {
 	private SelectBox selCharSkin;
 	private Image imgCharSkin;
 	private CheckBox chkShowFpsCounter;
-	 
+
 	// Debugging Stuff
 	private final float DEBUG_REBUILD_INTERVAL = 5.0f;
 	private boolean debugEnabled = false;
 	private float debugRebuildStage;
-	
+
 	/*
 	 * MenuScreen method
 	 */
-	public MenuScreen (Game game) {
+	public MenuScreen(Game game) {
 		super(game);
 	}
-	
-	public void render (float deltaTime) {
+
+	public void render(float deltaTime) {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (debugEnabled) {
@@ -88,69 +89,72 @@ public class MenuScreen extends AbstractGameScreen {
 		}
 		stage.act(deltaTime);
 		stage.draw();
-		//Book version that was removed
-		//Table.drawDebug(stage);
-		//My version to fix it
+		// Book version that was removed
+		// Table.drawDebug(stage);
+		// My version to fix it
 		stage.setDebugAll(true);
-		
-		//Line below is a debug that starts the game with any click inside the screen
-		//if(Gdx.input.isTouched())
-			//game.setScreen(new GameScreen(game));
+
+		// Line below is a debug that starts the game with any click inside the screen
+		// if(Gdx.input.isTouched())
+		// game.setScreen(new GameScreen(game));
 	}
-	
+
 	/*
 	 * Method resizes the screen
 	 */
-	public void resize (int width, int height) {
-		//Book version that does not work
-		//stage.setViewport(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT, false);
-		//My version
+	public void resize(int width, int height) {
+		// Book version that does not work
+		// stage.setViewport(Constants.VIEWPORT_GUI_WIDTH,
+		// Constants.VIEWPORT_GUI_HEIGHT, false);
+		// My version
 		stage.getViewport();
 	}
-	
+
 	/*
 	 * Method makes the screen visible
 	 */
-	public void show () {
+	public void show() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		rebuildStage();
 	}
-	
+
 	/*
 	 * Method hides the screen from view
 	 */
-	public void hide () { 
+	public void hide() {
 		stage.dispose();
 		skinCanyonBunny.dispose();
 		skinLibgdx.dispose();
 	}
-	
+
 	/*
 	 * Method pauses the screen
 	 */
-	public void pause () {
-		
+	public void pause() {
+
 	}
-	
+
 	/*
-	 *  ========== Chapter 7 Stage Building Code Below ==========
+	 * ========== Chapter 7 Stage Building Code Below ==========
 	 */
-	
+
 	/*
 	 * Method builds the menu screen.
 	 */
-	private void rebuildStage () {
-		skinCanyonBunny = new Skin(Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
-		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI), new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
-		
+	private void rebuildStage() {
+		skinCanyonBunny = new Skin(Gdx.files.internal(Constants.SKIN_CANYONBUNNY_UI),
+				new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
+		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI),
+				new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
+
 		// First, Build All Layers
 		Table layerBackground = buildBackgroundLayer();
 		Table layerObjects = buildObjectsLayer();
 		Table layerLogos = buildLogosLayer();
 		Table layerControls = buildControlsLayer();
 		Table layerOptionsWindow = buildOptionsWindowLayer();
-		
+
 		// Then, Assemble stage for menu screen
 		stage.clear();
 		Stack stack = new Stack();
@@ -162,47 +166,47 @@ public class MenuScreen extends AbstractGameScreen {
 		stack.add(layerControls);
 		stage.addActor(layerOptionsWindow);
 	}
-	
+
 	/*
 	 * Method builds the background layer of the menu screen
 	 */
-	private Table buildBackgroundLayer () {
+	private Table buildBackgroundLayer() {
 		Table layer = new Table();
 		// Background
 		imgBackground = new Image(skinCanyonBunny, "background");
 		layer.add(imgBackground);
 		return layer;
 	}
-	
+
 	/*
 	 * Method builds the object layer of the menu screen
 	 */
-	private Table buildObjectsLayer () {
+	private Table buildObjectsLayer() {
 		Table layer = new Table();
 		// Coins
 		imgCoins = new Image(skinCanyonBunny, "coins");
 		layer.addActor(imgCoins);
 		imgCoins.setPosition(135, 80);
-		
+
 		// Bunny
 		imgBunny = new Image(skinCanyonBunny, "bunny");
 		layer.addActor(imgBunny);
 		imgBunny.setPosition(355, 40);
 		return layer;
 	}
-	
+
 	/*
 	 * Method builds the logo layer of the menu screen
 	 */
-	private Table buildLogosLayer () {
+	private Table buildLogosLayer() {
 		Table layer = new Table();
 		layer.left().top();
-		
+
 		// Game Logo
 		imgLogo = new Image(skinCanyonBunny, "logo");
 		layer.add(imgLogo);
 		layer.row().expandY();
-		
+
 		// Info Logos
 		imgInfo = new Image(skinCanyonBunny, "info");
 		layer.add(imgInfo).bottom();
@@ -210,92 +214,92 @@ public class MenuScreen extends AbstractGameScreen {
 			layer.debug();
 		return layer;
 	}
-	
+
 	/*
 	 * Method builds the control layer of the menu screen
 	 */
-	private Table buildControlsLayer () {
+	private Table buildControlsLayer() {
 		Table layer = new Table();
 		layer.right().bottom();
-		
+
 		// Play Button
 		btnMenuPlay = new Button(skinCanyonBunny, "play");
 		layer.add(btnMenuPlay);
 		btnMenuPlay.addListener(new ChangeListener() {
 			@Override
-			public void changed (ChangeEvent event, Actor actor) {
+			public void changed(ChangeEvent event, Actor actor) {
 				onPlayClicked();
 			}
 		});
 		layer.row();
-		 
+
 		// Options Button
 		btnMenuOptions = new Button(skinCanyonBunny, "options");
 		layer.add(btnMenuOptions);
 		btnMenuOptions.addListener(new ChangeListener() {
 			@Override
-			public void changed (ChangeEvent event, Actor actor) {
+			public void changed(ChangeEvent event, Actor actor) {
 				onOptionsClicked();
 			}
 		});
-		
+
 		if (debugEnabled)
 			layer.debug();
 		return layer;
 	}
-	
-	//Playbutton Clicked
-	private void onPlayClicked () {
+
+	// Playbutton Clicked
+	private void onPlayClicked() {
 		game.setScreen(new GameScreen(game));
 	}
-			
-	//Options button clicked
-	private void onOptionsClicked () {
+
+	// Options button clicked
+	private void onOptionsClicked() {
 		loadSettings();
 		btnMenuPlay.setVisible(false);
 		btnMenuOptions.setVisible(false);
 		winOptions.setVisible(true);
 	}
-	
+
 	/*
 	 * Method builds the options window layer of the menu screen
 	 */
-	private Table buildOptionsWindowLayer () {
+	private Table buildOptionsWindowLayer() {
 		Table layer = new Table();
 		winOptions = new Window("Options", skinLibgdx);
-		
+
 		// Audio Settings: Sound/Music CheckBox and Volume Slider
 		winOptions.add(buildOptWinAudioSettings()).row();
-		
+
 		// Character Skin: Selection Box (White, Gray, Brown)
 		winOptions.add(buildOptWinSkinSelection()).row();
-		
+
 		// Debug: Show FPS Counter
 		winOptions.add(buildOptWinDebug()).row();
-		
+
 		// Separator and Buttons (Save, Cancel)
 		winOptions.add(buildOptWinButtons()).pad(10, 0, 10, 0);
-		
+
 		// Make options window slightly transparent
 		winOptions.setColor(1, 1, 1, 0.8f);
-		
+
 		// Hide options window by default
 		winOptions.setVisible(false);
 		if (debugEnabled)
 			winOptions.debug();
-		
+
 		// Let TableLayout recalculate widget sizes and positions
 		winOptions.pack();
-		
+
 		// Move options window to bottom right corner
 		winOptions.setPosition(Constants.VIEWPORT_GUI_WIDTH - winOptions.getWidth() - 50, 50);
 		return winOptions;
 	}
-	
+
 	/*
-	 *  ========== Chapter 7 Personal Settings Methods Below ==========
+	 * ========== Chapter 7 Personal Settings Methods Below ==========
 	 */
-	
+
 	/*
 	 * Method loads preferences
 	 */
@@ -306,14 +310,14 @@ public class MenuScreen extends AbstractGameScreen {
 		sldSound.setValue(prefs.volSound);
 		chkMusic.setChecked(prefs.music);
 		sldMusic.setValue(prefs.volMusic);
-		//Old Version in book
-		//selCharSkin.setSelection(prefs.charSkin);
-		//My Fix
+		// Old Version in book
+		// selCharSkin.setSelection(prefs.charSkin);
+		// My Fix
 		selCharSkin.setSelected(prefs.charSkin);
 		onCharSkinSelected(prefs.charSkin);
 		chkShowFpsCounter.setChecked(prefs.showFpsCounter);
 	}
-	
+
 	/*
 	 * Method saves preferences
 	 */
@@ -323,14 +327,14 @@ public class MenuScreen extends AbstractGameScreen {
 		prefs.volSound = sldSound.getValue();
 		prefs.music = chkMusic.isChecked();
 		prefs.volMusic = sldMusic.getValue();
-		//Book version
-		//prefs.charSkin = selCharSkin.getSelectionIndex();
-		//My Fix
+		// Book version
+		// prefs.charSkin = selCharSkin.getSelectionIndex();
+		// My Fix
 		prefs.charSkin = selCharSkin.getSelectedIndex();
 		prefs.showFpsCounter = chkShowFpsCounter.isChecked();
 		prefs.save();
 	}
-	
+
 	/*
 	 * Selected Skin Method
 	 */
@@ -338,15 +342,17 @@ public class MenuScreen extends AbstractGameScreen {
 		CharacterSkin skin = CharacterSkin.values()[index];
 		imgCharSkin.setColor(skin.getColor());
 	}
-	
+
 	/*
 	 * Save Button Click
 	 */
 	private void onSaveClicked() {
 		saveSettings();
 		onCancelClicked();
+		// chapter 10 below
+		AudioManager.instance.onSettingsUpdated();
 	}
-	
+
 	/*
 	 * Cancel Button Click
 	 */
@@ -354,21 +360,23 @@ public class MenuScreen extends AbstractGameScreen {
 		btnMenuPlay.setVisible(true);
 		btnMenuOptions.setVisible(true);
 		winOptions.setVisible(false);
+		// chapter 10 below
+		AudioManager.instance.onSettingsUpdated();
 	}
-	
+
 	/*
 	 * Methods builds the audio settings table
 	 */
-	private Table buildOptWinAudioSettings () {
+	private Table buildOptWinAudioSettings() {
 		Table tbl = new Table();
-		
+
 		// Title: "Audio"
 		tbl.pad(10, 10, 0, 10);
 		tbl.add(new Label("Audio", skinLibgdx, "default-font", Color.ORANGE)).colspan(3);
 		tbl.row();
 		tbl.columnDefaults(0).padRight(10);
 		tbl.columnDefaults(1).padRight(10);
-		
+
 		// Checkbox, "Sound" label, sound volume slider
 		chkSound = new CheckBox("", skinLibgdx);
 		tbl.add(chkSound);
@@ -376,7 +384,7 @@ public class MenuScreen extends AbstractGameScreen {
 		sldSound = new Slider(0.0f, 1.0f, 0.1f, false, skinLibgdx);
 		tbl.add(sldSound);
 		tbl.row();
-		
+
 		// Checkbox, "Music" label, music volume slider
 		chkMusic = new CheckBox("", skinLibgdx);
 		tbl.add(chkMusic);
@@ -386,50 +394,50 @@ public class MenuScreen extends AbstractGameScreen {
 		tbl.row();
 		return tbl;
 	}
-	
+
 	/*
 	 * Method builds the skin selection table
 	 */
-	private Table buildOptWinSkinSelection () {
+	private Table buildOptWinSkinSelection() {
 		Table tbl = new Table();
-		
+
 		// Title: "Character Skin"
 		tbl.pad(10, 10, 0, 10);
 		tbl.add(new Label("Character Skin", skinLibgdx, "default-font", Color.ORANGE)).colspan(2);
 		tbl.row();
-		
+
 		// Drop down box filled with skin items
-		//Book Version
-		//selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
-		//My Version
+		// Book Version
+		// selCharSkin = new SelectBox(CharacterSkin.values(), skinLibgdx);
+		// My Version
 		selCharSkin = new SelectBox(skinLibgdx);
 		selCharSkin.addListener(new ChangeListener() {
 			@Override
-			public void changed (ChangeEvent event, Actor actor) {
-				onCharSkinSelected(((SelectBox)actor).getSelectedIndex());
+			public void changed(ChangeEvent event, Actor actor) {
+				onCharSkinSelected(((SelectBox) actor).getSelectedIndex());
 			}
 		});
 		tbl.add(selCharSkin).width(120).padRight(20);
-		 
+
 		// Skin preview image
 		imgCharSkin = new Image(Assets.instance.bunny.head);
 		tbl.add(imgCharSkin).width(50).height(50);
 		return tbl;
 	}
-	
+
 	/*
 	 * Method builds debug options table
 	 */
-	private Table buildOptWinDebug () {
+	private Table buildOptWinDebug() {
 		Table tbl = new Table();
-		
+
 		// Title: "Debug"
 		tbl.pad(10, 10, 0, 10);
 		tbl.add(new Label("Debug", skinLibgdx, "default-font", Color.RED)).colspan(3);
 		tbl.row();
 		tbl.columnDefaults(0).padRight(10);
 		tbl.columnDefaults(1).padRight(10);
-		
+
 		// Checkbox, "Show FPS Counter" label
 		chkShowFpsCounter = new CheckBox("", skinLibgdx);
 		tbl.add(new Label("Show FPS Counter", skinLibgdx));
@@ -437,13 +445,13 @@ public class MenuScreen extends AbstractGameScreen {
 		tbl.row();
 		return tbl;
 	}
-	
+
 	/*
 	 * Method is the save and cancel buttons at the bottom of the options window
 	 */
-	private Table buildOptWinButtons () {
+	private Table buildOptWinButtons() {
 		Table tbl = new Table();
-		
+
 		// Separator
 		Label lbl = null;
 		lbl = new Label("", skinLibgdx);
@@ -458,23 +466,23 @@ public class MenuScreen extends AbstractGameScreen {
 		lbl.getStyle().background = skinLibgdx.newDrawable("white");
 		tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 1, 5, 0);
 		tbl.row();
-		 
+
 		// Save Button with event handler
 		btnWinOptSave = new TextButton("Save", skinLibgdx);
 		tbl.add(btnWinOptSave).padRight(30);
 		btnWinOptSave.addListener(new ChangeListener() {
 			@Override
-			public void changed (ChangeEvent event, Actor actor) {
+			public void changed(ChangeEvent event, Actor actor) {
 				onSaveClicked();
 			}
 		});
-		 
+
 		// Cancel Button with event handler
 		btnWinOptCancel = new TextButton("Cancel", skinLibgdx);
 		tbl.add(btnWinOptCancel);
 		btnWinOptCancel.addListener(new ChangeListener() {
 			@Override
-			public void changed (ChangeEvent event, Actor actor) {
+			public void changed(ChangeEvent event, Actor actor) {
 				onCancelClicked();
 			}
 		});
