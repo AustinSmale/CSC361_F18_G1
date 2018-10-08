@@ -121,6 +121,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		goldCoin = new AssetGoldCoin(atlas);
 		feather = new AssetFeather(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
+		// added in chapter 10 below
+		sounds = new AssetSounds(assetManager);
+		music = new AssetMusic(assetManager);
 	}
 
 	// Disposes of the assetManager and the fonts
