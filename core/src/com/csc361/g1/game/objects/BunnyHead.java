@@ -8,6 +8,9 @@ import com.csc361.g1.game.Assets;
 import com.csc361.g1.util.CharacterSkin;
 import com.csc361.g1.util.Constants;
 import com.csc361.g1.util.GamePreferences;
+import com.badlogic.gdx.math.MathUtils;
+import com.csc361.g1.util.AudioManager;
+
 
 /**
  * Bunny Head class that has all the logic for the bunny head
@@ -82,6 +85,7 @@ public class BunnyHead extends AbstractGameObject {
 		switch (jumpState) {
 		case GROUNDED: // Character is standing on a platform
 			if (jumpKeyPressed) {
+				AudioManager.instance.play(Assets.instance.sounds.jump);
 				// Start counting jump time from the beginning
 				timeJumping = 0;
 				jumpState = JUMP_STATE.JUMP_RISING;
@@ -94,6 +98,7 @@ public class BunnyHead extends AbstractGameObject {
 		case FALLING:// Falling down
 		case JUMP_FALLING: // Falling down after jump
 			if (jumpKeyPressed && hasFeatherPowerup) {
+				AudioManager.instance.play(Assets.instance.sounds.jumpWithFeather, 1, MathUtils.random(1.0f, 1.1f));
 				timeJumping = JUMP_TIME_OFFSET_FLYING;
 				jumpState = JUMP_STATE.JUMP_RISING;
 			}

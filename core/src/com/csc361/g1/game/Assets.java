@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 import com.csc361.g1.util.Constants;
 
 public class Assets implements Disposable, AssetErrorListener {
@@ -25,6 +28,44 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 	private AssetManager assetManager;
 	public AssetFonts fonts;
+	public AssetSounds sounds;
+	public AssetMusic music;
+
+	/**
+	 * Holds the information for all the sounds
+	 */
+	public class AssetSounds {
+		public final Sound jump;
+		public final Sound jumpWithFeather;
+		public final Sound pickupCoin;
+		public final Sound pickupFeather;
+		public final Sound liveLost;
+
+		/**
+		 * Constructor for AssetSounds
+		 * 
+		 * @param am
+		 */
+		public AssetSounds(AssetManager am) {
+			jump = am.get("sounds/jump.wav", Sound.class);
+			jumpWithFeather = am.get("sounds/jump_with_feather.wav", Sound.class);
+			pickupCoin = am.get("sounds/pickup_coin.wav", Sound.class);
+			pickupFeather = am.get("sounds/pickup_feather.wav", Sound.class);
+			liveLost = am.get("sounds/live_lost.wav", Sound.class);
+		}
+	}
+
+	/**
+	 * Holds the music for the game
+	 * 
+	 */
+	public class AssetMusic {
+		public final Music song01;
+
+		public AssetMusic(AssetManager am) {
+			song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);
+		}
+	}
 
 	// Singleton Pattern: prevents instantiation from the other classes.
 	private Assets() {
@@ -39,35 +80,50 @@ public class Assets implements Disposable, AssetErrorListener {
 
 	/**
 	 * Initializes the assets in the game
+	 * 
 	 * @param assetManager
 	 */
 	public void init(AssetManager assetManager) {
 		this.assetManager = assetManager;
-		
+
 		// set asset manager error handler
 		assetManager.setErrorListener(this);
-		
+
 		// load texture atlas
 		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
-		
+
+		// added sounds and music
+		// load sounds
+		assetManager.load("sounds/jump.wav", Sound.class);
+		assetManager.load("sounds/jump_with_feather.wav", Sound.class);
+		assetManager.load("sounds/pickup_coin.wav", Sound.class);
+		assetManager.load("sounds/pickup_feather.wav", Sound.class);
+		assetManager.load("sounds/live_lost.wav", Sound.class);
+
+		// load music
+		assetManager.load("music/keith303_-_brand_new_highscore.mp3", Music.class);
+
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
 		for (String a : assetManager.getAssetNames())
 			Gdx.app.debug(TAG, "asset: " + a);
 		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
-		
+
 		// enable texture filtering for pixel smoothing
 		for (Texture t : atlas.getTextures())
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+
 		// create game resource objects
-		fonts = new AssetFonts(); 	//added
+		fonts = new AssetFonts(); // added
 		bunny = new AssetBunny(atlas);
 		rock = new AssetRock(atlas);
 		goldCoin = new AssetGoldCoin(atlas);
 		feather = new AssetFeather(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
+		// added in chapter 10 below
+		sounds = new AssetSounds(assetManager);
+		music = new AssetMusic(assetManager);
 	}
 
 	// Disposes of the assetManager and the fonts

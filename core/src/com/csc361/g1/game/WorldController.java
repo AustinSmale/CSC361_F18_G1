@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.csc361.g1.util.AudioManager;
 import com.csc361.g1.util.CameraHelper;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
@@ -130,6 +131,8 @@ public class WorldController extends InputAdapter {
 
 		// Subtract lives when player hits the water.
 		if (!isGameOver() && isPlayerInWater()) {
+			// Chapter 10 line below
+			AudioManager.instance.play(Assets.instance.sounds.liveLost);
 			lives--;
 			if (isGameOver())
 				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -254,6 +257,8 @@ public class WorldController extends InputAdapter {
 	// Method used when the bunny head touches the gold coin
 	private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {
 		goldcoin.collected = true;
+		// play sound when coin is picked up
+		AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
 		score += goldcoin.getScore();
 		Gdx.app.log(TAG, "Gold coin collected");
 	};
@@ -261,6 +266,8 @@ public class WorldController extends InputAdapter {
 	// Method used when the bunny head touches the feather
 	private void onCollisionBunnyWithFeather(Feather feather) {
 		feather.collected = true;
+		// play sound when feather is collected
+		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += feather.getScore();
 		level.bunnyHead.setFeatherPowerup(true);
 		Gdx.app.log(TAG, "Feather collected");
