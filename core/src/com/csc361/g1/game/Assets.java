@@ -200,6 +200,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			mountainLeft = atlas.findRegion("mountain_left");
 			mountainRight = atlas.findRegion("mountain_right");
 			waterOverlay = atlas.findRegion("water_overlay");
+			// Added the carrot and goal region from chapter 11
 			carrot = atlas.findRegion("carrot");
 			goal = atlas.findRegion("goal");
 		}
