@@ -71,6 +71,8 @@ public class GameScreen extends AbstractGameScreen {
 	 */
 	@Override
 	public void hide() {
+		// dispose of the worldController when the game is hidden, Chapter 11
+		worldController.dispose();
 		worldRenderer.dispose();
 		Gdx.input.setCatchBackKey(false);
 	}
