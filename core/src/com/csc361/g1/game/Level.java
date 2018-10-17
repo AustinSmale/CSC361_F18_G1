@@ -76,6 +76,8 @@ public class Level {
 		rocks = new Array<Rock>();
 		goldcoins = new Array<GoldCoin>();
 		feathers = new Array<Feather>();
+		// Chapter 11 Level Objects
+		carrots = new Array<Carrot>();
 
 		// Load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -139,6 +141,14 @@ public class Level {
 					goldcoins.add((GoldCoin) obj);
 				}
 
+				// goal
+				else if (BLOCK_TYPE.GOAL.sameColor(currentPixel)) {
+					obj = new Goal();
+					offsetHeight = -7.0f;
+					obj.position.set(pixelX, baseHeight + offsetHeight);
+					goal = (Goal) obj;
+				}
+
 				// Unknown object/pixel color
 				else {
 					int r = 0xff & (currentPixel >>> 24); // Red color channel
@@ -200,6 +210,10 @@ public class Level {
 			goldCoin.update(deltaTime);
 		for (Feather feather : feathers)
 			feather.update(deltaTime);
+		// Chapter 11 object updates
+		for (Carrot carrot : carrots)
+			carrot.update(deltaTime);
+		// Clouds
 		clouds.update(deltaTime);
 	}
 }
