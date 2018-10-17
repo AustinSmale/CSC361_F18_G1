@@ -28,6 +28,17 @@ import com.csc361.g1.game.objects.Feather;
 import com.csc361.g1.game.objects.GoldCoin;
 import com.csc361.g1.game.objects.Rock;
 
+//Chapter 11 Imports
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.csc361.g1.game.objects.Carrot;
+
 import com.badlogic.gdx.InputAdapter;
 
 public class WorldController extends InputAdapter {
@@ -51,6 +62,10 @@ public class WorldController extends InputAdapter {
 	// Rectangles for collision detection (Chapter 6)
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
+	
+	// Goal Stuff (Chapter 11)
+	private boolean goalReached;
+	public World b2world;
 
 	/**
 	 * Constructor that keeps track of the game, and initializes the world
@@ -336,6 +351,36 @@ public class WorldController extends InputAdapter {
 			} else {
 				level.bunnyHead.setJumping(false);
 			}
+		}
+	}
+	
+	/*
+	 * ===================== Goal Physics (Chapter 11) =======================
+	 */
+	
+	// Initializes the physics for the in-game objects
+	private void initPhysics () {
+		if (b2world != null) b2world.dispose();
+		b2world = new World(new Vector2(0, -9.81f), true);
+		 
+		// Rocks
+		Vector2 origin = new Vector2();
+		 
+		for (Rock rock : level.rocks) {
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.KinematicBody;
+			bodyDef.position.set(rock.position);
+			Body body = b2world.createBody(bodyDef);
+			rock.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = rock.bounds.width / 2.0f;
+			origin.y = rock.bounds.height / 2.0f;
+			polygonShape.setAsBox(rock.bounds.width / 2.0f,
+			rock.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
 		}
 	}
 }
