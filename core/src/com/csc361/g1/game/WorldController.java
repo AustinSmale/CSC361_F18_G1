@@ -38,10 +38,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.csc361.g1.game.objects.Carrot;
+import com.badlogic.gdx.utils.Disposable;
 
 import com.badlogic.gdx.InputAdapter;
 
-public class WorldController extends InputAdapter {
+public class WorldController extends InputAdapter implements Disposable {
 	private static final String TAG = WorldController.class.getName();
 
 	// Next 3 lines are added code from chapter 5.
@@ -449,5 +450,11 @@ public class WorldController extends InputAdapter {
 		Vector2 centerPosBunnyHead = new Vector2(level.bunnyHead.position);
 		centerPosBunnyHead.x += level.bunnyHead.bounds.width;
 		spawnCarrots(centerPosBunnyHead, Constants.CARROTS_SPAWN_MAX, Constants.CARROTS_SPAWN_RADIUS);
+	}
+	
+	@Override
+	public void dispose () {
+		if (b2world != null)
+			b2world.dispose();
 	}
 }
