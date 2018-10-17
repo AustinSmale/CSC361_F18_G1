@@ -11,6 +11,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.csc361.g1.util.Constants;
 import com.csc361.g1.util.GamePreferences;
 
+// Chapter 11 import
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+
 /**
  * The class that renders the game world
  * 
@@ -23,6 +26,10 @@ public class WorldRenderer implements Disposable {
 	private SpriteBatch batch;
 	private WorldController worldController;
 	private OrthographicCamera cameraGUI;
+	
+	// Box 2d features (chapter 11)
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+	private Box2DDebugRenderer b2debugRenderer;
 
 	public WorldRenderer(WorldController worldController) {
 		this.worldController = worldController;
@@ -40,6 +47,8 @@ public class WorldRenderer implements Disposable {
 		cameraGUI.setToOrtho(true); // flip the y-axis
 		cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
 		cameraGUI.update();
+		
+		b2debugRenderer = new Box2DDebugRenderer();
 	}
 
 	/**
@@ -53,6 +62,10 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		worldController.level.render(batch);
 		batch.end();
+		
+		if (DEBUG_DRAW_BOX2D_WORLD) {
+			b2debugRenderer.render(worldController.b2world, camera.combined);
+		}
 	}
 
 	/**
