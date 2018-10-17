@@ -137,7 +137,9 @@ public class WorldController extends InputAdapter implements Disposable {
 		// TimeLeft game over.
 		if (isGameOver() || goalReached) {
 			timeLeftGameOverDelay -= deltaTime;
+			System.out.println(timeLeftGameOverDelay);
 			if (timeLeftGameOverDelay < 0)
+				//System.out.println("BUG!!");
 				backToMenu();
 		} else {
 			handleInputGame(deltaTime);
