@@ -97,8 +97,10 @@ public class WorldController extends InputAdapter {
 		score = 0;
 		// chapter 8 below
 		scoreVisual = score;
+		goalReached = false;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.bunnyHead);
+		initPhysics();
 	}
 
 	/**
@@ -132,7 +134,7 @@ public class WorldController extends InputAdapter {
 		handleDebugInput(deltaTime);
 
 		// TimeLeft game over.
-		if (isGameOver()) {
+		if (isGameOver() || goalReached) {
 			timeLeftGameOverDelay -= deltaTime;
 			if (timeLeftGameOverDelay < 0)
 				backToMenu();
@@ -142,6 +144,7 @@ public class WorldController extends InputAdapter {
 
 		level.update(deltaTime);
 		testCollisions();
+		b2world.step(deltaTime, 8, 3);
 		cameraHelper.update(deltaTime);
 
 		// Subtract lives when player hits the water.
@@ -324,6 +327,15 @@ public class WorldController extends InputAdapter {
 			onCollisionBunnyWithFeather(feather);
 			break;
 		}
+		
+		// Test collision: Bunny Head <-> Goal
+		if (goalReached) {
+			r2.set(level.goal.bounds);
+			r2.x += level.goal.position.x;
+			r2.y += level.goal.position.y;
+			if (r1.overlaps(r2))
+				onCollisionBunnyWithGoal();
+		}
 	}
 
 	/*
@@ -428,5 +440,14 @@ public class WorldController extends InputAdapter {
 			// Finally, add new carrot to list for updating/rendering
 			level.carrots.add(carrot);
 		}
+	}
+	
+	// Method creates the event when bunny touches the goal.
+	private void onCollisionBunnyWithGoal () {
+		goalReached = true;
+		timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_FINISHED;
+		Vector2 centerPosBunnyHead = new Vector2(level.bunnyHead.position);
+		centerPosBunnyHead.x += level.bunnyHead.bounds.width;
+		spawnCarrots(centerPosBunnyHead, Constants.CARROTS_SPAWN_MAX, Constants.CARROTS_SPAWN_RADIUS);
 	}
 }
