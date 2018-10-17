@@ -355,7 +355,7 @@ public class WorldController extends InputAdapter {
 	}
 	
 	/*
-	 * ===================== Goal Physics (Chapter 11) =======================
+	 * ===================== Physics (Chapter 11) =======================
 	 */
 	
 	// Initializes the physics for the in-game objects
@@ -381,6 +381,52 @@ public class WorldController extends InputAdapter {
 			fixtureDef.shape = polygonShape;
 			body.createFixture(fixtureDef);
 			polygonShape.dispose();
+		}
+	}
+	
+	// Method spawns the carrots that appear when the bunny touches the goal.
+	private void spawnCarrots (Vector2 pos, int numCarrots, float radius) {
+		float carrotShapeScale = 0.5f;
+			 
+		// Create carrots with box2d body and fixture
+		for (int i = 0; i < numCarrots; i++) { 
+			Carrot carrot = new Carrot();
+			 
+			// Calculate random spawn position, rotation, and scale
+			float x = MathUtils.random(-radius, radius);
+			float y = MathUtils.random(5.0f, 15.0f);
+			float rotation = MathUtils.random(0.0f, 360.0f) * MathUtils.degreesToRadians;
+			float carrotScale = MathUtils.random(0.5f, 1.5f);
+			carrot.scale.set(carrotScale, carrotScale);
+			
+			// Create box2d body for carrot with start position
+			// and angle of rotation
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.position.set(pos);
+			bodyDef.position.add(x, y);
+			bodyDef.angle = rotation;
+			Body body = b2world.createBody(bodyDef);
+			body.setType(BodyType.DynamicBody);
+			carrot.body = body;
+			
+			// Create rectangular shape for carrot to allow
+			// interactions (collisions) with other objects
+			PolygonShape polygonShape = new PolygonShape();
+			float halfWidth = carrot.bounds.width / 2.0f * carrotScale;
+			float halfHeight = carrot.bounds.height /2.0f * carrotScale;
+			polygonShape.setAsBox(halfWidth * carrotShapeScale, halfHeight * carrotShapeScale);
+			 
+			// Set physics attributes
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			fixtureDef.density = 50;
+			fixtureDef.restitution = 0.5f;
+			fixtureDef.friction = 0.5f;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
+			
+			// Finally, add new carrot to list for updating/rendering
+			level.carrots.add(carrot);
 		}
 	}
 }
