@@ -179,6 +179,9 @@ public class Level {
 		// Draw Mountains
 		mountains.render(batch);
 
+		// Draw Goal
+		goal.render(batch);
+
 		// Draw Rocks
 		for (Rock rock : rocks)
 			rock.render(batch);
@@ -190,6 +193,10 @@ public class Level {
 		// Draw Feathers
 		for (Feather feather : feathers)
 			feather.render(batch);
+
+		// Draw Carrots
+		for (Carrot carrot : carrots)
+			carrot.render(batch);
 
 		// Draw Player Character
 		bunnyHead.render(batch);
