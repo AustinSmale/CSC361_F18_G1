@@ -21,7 +21,7 @@ public class DesktopLauncher {
 			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.atlas");
 			TexturePacker.process(settings, "assets-raw/images-ui",
 					"../core/assets/images",
-					"canyonbunny-ui.pack");
+					"canyonbunny-ui.atlas");
 		}
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "CanyonBunny";
