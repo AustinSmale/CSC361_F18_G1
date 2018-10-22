@@ -159,14 +159,42 @@ public class BunnyHead extends AbstractGameObject {
 			viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
 		}
 		if (timeLeftFeatherPowerup > 0) {
+			if (animation == animCopterTransformBack) {
+				 // Restart "Transform" animation if another feather power-up
+				 // was picked up during "TransformBack" animation. Otherwise,
+				 // the "TransformBack" animation would be stuck while the
+				 // power-up is still active.
+				 setAnimation(animCopterTransform);
+			}
+			
 			timeLeftFeatherPowerup -= deltaTime;
+			
 			if (timeLeftFeatherPowerup < 0) {
-				// disable power-up
-				timeLeftFeatherPowerup = 0;
-				setFeatherPowerup(false);
+					// disable power-up
+					timeLeftFeatherPowerup = 0;
+					setFeatherPowerup(false);
+					setAnimation(animCopterTransformBack);
 			}
 		}
 		dustParticles.update(deltaTime);
+		
+		// Change animation state according to feather power-up
+		if (hasFeatherPowerup) {
+			if (animation == animNormal) {
+				setAnimation(animCopterTransform);
+			} else if (animation == animCopterTransform) {
+				if (animation.isAnimationFinished(stateTime))
+					setAnimation(animCopterRotate);
+				}
+			} else {
+				if (animation == animCopterRotate) {
+					if (animation.isAnimationFinished(stateTime))
+						setAnimation(animCopterTransformBack);
+					} else if (animation == animCopterTransformBack) {
+						if (animation.isAnimationFinished(stateTime))
+							setAnimation(animNormal);
+						}
+			}
 	}
 
 	/**
