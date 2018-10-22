@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 //Chapter 11 imports
 import com.badlogic.gdx.physics.box2d.Body;
+//Chapter 12 imports
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 /**
  * The super class for every game object
@@ -28,6 +30,9 @@ public abstract class AbstractGameObject {
 	public Rectangle bounds; // bounding box of object for collision
 	// Chapter 11
 	public Body body;
+	// Chapter 12
+	public float stateTime;
+	public Animation animation;
 
 	/**
 	 * Constructor for AbstractGameObject to set vectors
@@ -52,6 +57,7 @@ public abstract class AbstractGameObject {
 	 * @param deltaTime
 	 */
 	public void update(float deltaTime) {
+		stateTime += deltaTime;
 		// Chapter 11 if statement
 		if (body == null) {
 			updateMotionX(deltaTime);
@@ -117,5 +123,14 @@ public abstract class AbstractGameObject {
 		// Make sure the object's velocity does not exceed the
 		// positive or negative terminal velocity
 		velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
+	}
+	
+	/**
+	 * Method sets animation of an object
+	 * @param animation
+	 */
+	public void setAnimation (Animation animation) {
+		this.animation = animation;
+		stateTime = 0;
 	}
 }
