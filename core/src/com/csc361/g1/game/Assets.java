@@ -23,6 +23,10 @@ import com.badlogic.gdx.audio.Sound;
 
 import com.csc361.g1.util.Constants;
 
+//Chapter 12
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.utils.Array;
+
 public class Assets implements Disposable, AssetErrorListener {
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
@@ -167,9 +171,17 @@ public class Assets implements Disposable, AssetErrorListener {
 	// Gold Coin Asset
 	public class AssetGoldCoin {
 		public final AtlasRegion goldCoin;
+		public final Animation animGoldCoin;
 
 		public AssetGoldCoin(TextureAtlas atlas) {
 			goldCoin = atlas.findRegion("item_gold_coin");
+			
+			// Animation: Gold Coin (Chapter 12)
+			Array<AtlasRegion> regions = atlas.findRegions("anim_gold_coin");
+			AtlasRegion region = regions.first();
+			for (int i = 0; i < 10; i++)
+				regions.insert(0, region);
+			animGoldCoin = new Animation(1.0f / 20.0f, regions, Animation.LOOP_PINGPONG);
 		}
 	}
 
