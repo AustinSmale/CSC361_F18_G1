@@ -10,6 +10,8 @@ import com.csc361.g1.util.Constants;
 import com.csc361.g1.util.GamePreferences;
 import com.badlogic.gdx.math.MathUtils;
 import com.csc361.g1.util.AudioManager;
+// Chapter 12
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 
 /**
@@ -24,6 +26,12 @@ public class BunnyHead extends AbstractGameObject {
 	private final float JUMP_TIME_MAX = 0.3f;
 	private final float JUMP_TIME_MIN = 0.1f;
 	private final float JUMP_TIME_OFFSET_FLYING = JUMP_TIME_MAX - 0.018f;
+	
+	//Chapter 12
+	private Animation animNormal;
+	private Animation animCopterTransform;
+	private Animation animCopterTransformBack;
+	private Animation animCopterRotate;
 
 	public enum VIEW_DIRECTION {
 		LEFT, RIGHT
@@ -54,6 +62,15 @@ public class BunnyHead extends AbstractGameObject {
 	public void init() {
 		dimension.set(1, 1);
 		regHead = Assets.instance.bunny.head;
+		
+		//Chapter 12 animation
+		animNormal = Assets.instance.bunny.animNormal;
+		animCopterTransform = Assets.instance.bunny.animCopterTransform;
+		animCopterTransformBack =
+		Assets.instance.bunny.animCopterTransformBack;
+		animCopterRotate = Assets.instance.bunny.animCopterRotate;
+		setAnimation(animNormal);
+		
 		// Center image on game object
 		origin.set(dimension.x / 2, dimension.y / 2);
 		// Bounding box for collision detection
