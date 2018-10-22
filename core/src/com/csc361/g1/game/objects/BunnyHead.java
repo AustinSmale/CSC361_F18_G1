@@ -252,12 +252,21 @@ public class BunnyHead extends AbstractGameObject {
 		// Apply Skin Color
 		batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 
+		//Animation
+		float dimCorrectionX = 0;
+		float dimCorrectionY = 0;
+		if (animation != animNormal) {
+			dimCorrectionX = 0.05f;
+			dimCorrectionY = 0.2f;
+		}
+		
 		// Set special color when game object has a feather power-up
-		if (hasFeatherPowerup)
-			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		//if (hasFeatherPowerup)
+		//	batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		
 		// Draw image
-		reg = regHead;
-		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x,
+		reg = animation.getKeyFrame(stateTime, true);
+		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x + dimCorrectionX, dimension.y + dimCorrectionY, scale.x,
 				scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),
 				viewDirection == VIEW_DIRECTION.LEFT, false);
 		// Reset color to white
