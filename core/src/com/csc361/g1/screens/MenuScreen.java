@@ -268,9 +268,8 @@ public class MenuScreen extends AbstractGameScreen {
 	// Options button clicked
 	private void onOptionsClicked() {
 		loadSettings();
-		btnMenuPlay.setVisible(false);
-		btnMenuOptions.setVisible(false);
-		winOptions.setVisible(true);
+		showMenuButtons(false);
+		showOptionsWindow(true, true);
 	}
 
 	/*
@@ -296,7 +295,7 @@ public class MenuScreen extends AbstractGameScreen {
 		winOptions.setColor(1, 1, 1, 0.8f);
 
 		// Hide options window by default
-		winOptions.setVisible(false);
+		showOptionsWindow(false, false);
 		if (debugEnabled)
 			winOptions.debug();
 
@@ -369,9 +368,8 @@ public class MenuScreen extends AbstractGameScreen {
 	 * Cancel Button Click
 	 */
 	private void onCancelClicked() {
-		btnMenuPlay.setVisible(true);
-		btnMenuOptions.setVisible(true);
-		winOptions.setVisible(false);
+		showMenuButtons(true);
+		showOptionsWindow(false, true);
 		// chapter 10 below
 		AudioManager.instance.onSettingsUpdated();
 	}
