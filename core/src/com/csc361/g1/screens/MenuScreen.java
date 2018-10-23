@@ -38,6 +38,8 @@ import com.csc361.g1.util.AudioManager;
 // Chapter 12 Imports
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class MenuScreen extends AbstractGameScreen {
 
@@ -497,5 +499,19 @@ public class MenuScreen extends AbstractGameScreen {
 			}
 		});
 		return tbl;
+	}
+
+	private void showMenuButtons (boolean visible) {
+		float moveDuration = 1.0f;
+		Interpolation moveEasing = Interpolation.swing;
+		float delayOptionsButton = 0.25f;
+		float moveX = 300 * (visible ? -1 : 1);
+		float moveY = 0 * (visible ? -1 : 1);
+		final Touchable touchEnabled = visible ? Touchable.enabled
+		: Touchable.disabled;
+		btnMenuPlay.addAction(
+		moveBy(moveX, moveY, moveDuration, moveEasing));
+		btnMenuOptions.addAction(sequence(delay(delayOptionsButton),
+				moveBy(moveX, moveY, moveDuration, moveEasing)));
 	}
 }
